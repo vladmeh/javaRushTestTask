@@ -1,0 +1,22 @@
+DROP DATABASE IF EXISTS test;
+CREATE DATABASE test CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+USE test;
+
+DROP TABLE IF EXISTS book;
+CREATE TABLE book
+(
+  id INT AUTO_INCREMENT
+    PRIMARY KEY ,
+  title VARCHAR(100) NULL,
+  description VARCHAR(100) NULL,
+  autor VARCHAR(100) NULL,
+  isbn VARCHAR(20) NULL,
+  print_year INT NULL,
+  read_already TINYINT NULL,
+  CONSTRAINT id_UNIQUE
+  UNIQUE (id)
+)
+  ENGINE = innoDB
+  DEFAULT CHARACTER SET = utf8
+;

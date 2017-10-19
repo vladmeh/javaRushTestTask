@@ -89,7 +89,7 @@
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/6e13e0a955338ed46ef796ed3ec1fe0934ace46a)
 
 ### 5. Проверяем работоспособность
-* Создаем первый контроллер Controller.HomeAction;
+* Создаем первый контроллер [Controller.HomeAction](https://github.com/vladmeh/javaRushTestTask/blob/a9ec5dfab0c1c38431754aa40ba9b4562e6c35a7/src/main/java/com/vladmeh/javaRushTestTask/Controller/HomeAction.java);
 * Первое тестирование
     * [ApplicationTest](https://github.com/vladmeh/javaRushTestTask/blob/07d4d78265f902c29d89e1a5b40f53230ac8cc39/src/test/java/com/vladmeh/javaRushTestTask/ApplicationTest.java) - проверяет что контекст создает нашконтроллер, а так же обрабатывает наш входящий HTTP запрос правильно (без затрат на запуск сервера) 
     * [HttpRequestTest](https://github.com/vladmeh/javaRushTestTask/blob/07d4d78265f902c29d89e1a5b40f53230ac8cc39/src/test/java/com/vladmeh/javaRushTestTask/HttpRequestTest.java) - обрабатывает наш входящий HTTP запрос
@@ -102,3 +102,11 @@
 * Запускаем тесты - все тесты должны проити успешно.
 
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/07d4d78265f902c29d89e1a5b40f53230ac8cc39)
+
+### 6. Создаем таблицу и модель данных
+* Сразу же создаем скрипт sql где пишем создание базы, таблицы, полей, данными.
+* Создаем модель данных Entity.Book
+* Создаем интерфейс репозитария Repository.BookRepository который пока наследуется от CrudRepository
+* Сoздаем контроллер Controller.BookController с одним методом getAllBook который будет возвращать полный список наших книг
+
+>Подробнее о создании Spring Data JPA читаем [здесь](https://www.petrikainulainen.net/spring-data-jpa-tutorial)
