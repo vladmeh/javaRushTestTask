@@ -66,3 +66,22 @@
         *   MySQL - MySQL jdbc драйвер.
 *   Качаем и распаковываем архив;
 *   Импортируем проект в IntelliJ IDEA. Как это сделать читаем [здесь](https://spring.io/guides/gs/intellij-idea/).
+
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/de7068c267681004c04419305dcc000c858934c9)
+
+### 4. Создание и подключение базы данных
+* Создаем пустую базу
+    
+    `mysql>  CREATE DATABASE IF NOT EXISTS test;`
+    
+* [Подключаем ее в IntelliJ IDEA](https://www.jetbrains.com/help/idea/working-with-the-database-tool-window.html#create_data_source)
+* [Настраиваем подключение в Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-connect-to-production-database)
+    
+    `application.properties`
+    
+    ```properties
+    spring.jpa.hibernate.ddl-auto=none
+    spring.datasource.url=jdbc:mysql://localhost:3306/test?autoReconnect=true&useSSL=false
+    spring.datasource.username=root
+    spring.datasource.password=root
+    ```
