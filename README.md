@@ -85,3 +85,17 @@
     spring.datasource.username=root
     spring.datasource.password=root
     ```
+
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/6e13e0a955338ed46ef796ed3ec1fe0934ace46a)
+
+### 5. Проверяем работоспособность
+* Создаем первый контроллер Controller.HomeAction;
+* Первое тестирование
+    * ApplicationTest - проверяет что контекст создает нашконтроллер, а так же обрабатывает наш входящий HTTP запрос правильно (без затрат на запуск сервера) 
+    * HttpRequestTest - обрабатывает наш входящий HTTP запрос
+    
+    >Подробнее о тестирвоание Spring boot [здесь](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html) и [здесь](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#integration-testing-support-jdbc)
+
+* Запускаем JavaRushTestTaskApplication в IDEA
+    *   в браузере http://localhost:8080 будет выведено "Hello World";
+* Запускаем тесты - все тесты должны проити успешно.
