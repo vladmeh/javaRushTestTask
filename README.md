@@ -91,11 +91,14 @@
 ### 5. Проверяем работоспособность
 * Создаем первый контроллер Controller.HomeAction;
 * Первое тестирование
-    * ApplicationTest - проверяет что контекст создает нашконтроллер, а так же обрабатывает наш входящий HTTP запрос правильно (без затрат на запуск сервера) 
-    * HttpRequestTest - обрабатывает наш входящий HTTP запрос
+    * [ApplicationTest](https://github.com/vladmeh/javaRushTestTask/blob/a9ec5dfab0c1c38431754aa40ba9b4562e6c35a7/src/test/java/com/vladmeh/javaRushTestTask/ApplicationTest.java) - проверяет что контекст создает нашконтроллер, а так же обрабатывает наш входящий HTTP запрос правильно (без затрат на запуск сервера) 
+    * [HttpRequestTest](https://github.com/vladmeh/javaRushTestTask/blob/a9ec5dfab0c1c38431754aa40ba9b4562e6c35a7/src/test/java/com/vladmeh/javaRushTestTask/HttpRequestTest.java) - обрабатывает наш входящий HTTP запрос
     
-    >Подробнее о тестирвоание Spring boot [здесь](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html) и [здесь](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#integration-testing-support-jdbc)
+    
+>Подробнее о тестирвоание Spring boot [здесь](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html) и [здесь](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#integration-testing-support-jdbc)
 
 * Запускаем JavaRushTestTaskApplication в IDEA
     *   в браузере http://localhost:8080 будет выведено "Hello World";
 * Запускаем тесты - все тесты должны проити успешно.
+
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/a9ec5dfab0c1c38431754aa40ba9b4562e6c35a7)
