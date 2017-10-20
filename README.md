@@ -104,7 +104,7 @@
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/07d4d78265f902c29d89e1a5b40f53230ac8cc39)
 
 ### 6. Создаем таблицу и модель данных
-* Сразу же создаем [скрипт sql](https://github.com/vladmeh/javaRushTestTask/blob/fa277c2f0d5697878cb013e5a888d775bde06e92/src/main/resources/database.sql) где пишем создание базы, таблицы, полей.
+* Сразу же создаем [скрипт sql](https://github.com/vladmeh/javaRushTestTask/blob/2c7eae388eb36dceecb1ea6cdde6cb87db4ce71d/src/main/resources/database.sql) где пишем создание базы, таблицы, полей.
 * Создаем модель данных [Entity.Book](https://github.com/vladmeh/javaRushTestTask/blob/fa277c2f0d5697878cb013e5a888d775bde06e92/src/main/java/com/vladmeh/javaRushTestTask/Entity/Book.java)
 * Создаем интерфейс репозитария [Repository.BookRepository](https://github.com/vladmeh/javaRushTestTask/blob/fa277c2f0d5697878cb013e5a888d775bde06e92/src/main/java/com/vladmeh/javaRushTestTask/Repository/BookRepository.java) который пока наследуется от CrudRepository
 * Сoздаем контроллер [Controller.BookController](https://github.com/vladmeh/javaRushTestTask/blob/fa277c2f0d5697878cb013e5a888d775bde06e92/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) с одним методом getAllBook который будет возвращать полный список наших книг
@@ -112,3 +112,17 @@
 >Подробнее о создании Spring Data JPA читаем [здесь](https://www.petrikainulainen.net/spring-data-jpa-tutorial)
 
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/fa277c2f0d5697878cb013e5a888d775bde06e92)
+
+### 7. Реализация сервисного интерфейса
+* Обновляем модель данных database.sql
+    * в модель данных добаляем сценарий для наполнения данными
+* Создаем интерфейс Service.BookService
+* Создаем класс реализации интерфейса BookService Service.BookServiceImpl 
+* Обновляем контроллер Controller.BookController
+    * контроллер теперь реализует свои методы через нашу сервисную службу BookService
+    * добавляем методы 
+        * `findBookById` -  поиск конкретной книги по id
+        * `create` - создание новой книги
+        * `update` - обновление существующей книги
+        * `delete` - удаление существующей книги
+* Модульное тестирование контроллера с помощью unit теста BookController.test
