@@ -114,17 +114,44 @@
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/fa277c2f0d5697878cb013e5a888d775bde06e92)
 
 ### 7. Реализация сервисного интерфейса
-* Обновляем модель данных database.sql
+* Обновляем модель данных [database.sql](https://github.com/vladmeh/javaRushTestTask/blob/755320b2d6eff2f8023453e9659a238f290d574e/src/main/resources/database.sql)
     * в модель данных добаляем сценарий для наполнения данными
-* Создаем интерфейс Service.BookService
-* Создаем класс реализации интерфейса BookService Service.BookServiceImpl 
-* Обновляем контроллер Controller.BookController
+* Создаем интерфейс [Service.BookService](https://github.com/vladmeh/javaRushTestTask/blob/755320b2d6eff2f8023453e9659a238f290d574e/src/main/java/com/vladmeh/javaRushTestTask/Service/BookService.java)
+* Создаем класс реализации интерфейса BookService [Service.BookServiceImpl](https://github.com/vladmeh/javaRushTestTask/blob/755320b2d6eff2f8023453e9659a238f290d574e/src/main/java/com/vladmeh/javaRushTestTask/Service/BookServiceImpl.java) 
+* Обновляем контроллер [Controller.BookController](https://github.com/vladmeh/javaRushTestTask/blob/755320b2d6eff2f8023453e9659a238f290d574e/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java)
     * контроллер теперь реализует свои методы через нашу сервисную службу BookService
     * добавляем методы 
         * `findBookById` -  поиск конкретной книги по id
         * `create` - создание новой книги
         * `update` - обновление существующей книги
         * `delete` - удаление существующей книги
-* Модульное тестирование контроллера с помощью unit теста BookController.test
+* Тестируем
+    * Модульное тестирование контроллера с помощью unit теста [BookController.test](https://github.com/vladmeh/javaRushTestTask/blob/755320b2d6eff2f8023453e9659a238f290d574e/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java)
+    * Работоспособность я тестировал с помощью сервиса [Postman Echo](https://www.getpostman.com/), с помощью которого посылаем запрос на наш сервер например добавим запись:
+    ```cfml
+    POST /books HTTP/1.1
+    Host: localhost:8080
+    Content-Type: application/json
+    Cache-Control: no-cache
+    
+    {
+    "title": "PHP объекты, шаблоны и методики программирования",
+    "description": "Создавайте высокопрофессиональный код на PHP, изучив его объектно-орентированные возможности, шаблоны проектирования и важные средства разработки.",
+    "autor": "Мет Зандстра",
+    "isbn": "978-5-8459-1689-1",
+    "printYear": 2013,
+    "readAlready": true
+    }
+    ```
+    
+    удалим эту запись:
+    
+    ```cfml
+    DELETE /books/14 HTTP/1.1
+    Host: localhost:8080
+    Cache-Control: no-cache
+    ```
 
-На данном этапе по адресу http://localhost:8080/books можем видеть список наших книг в формате json, а по адресу http://localhost:8080/books/1 - данные одной книги.
+На данном этапе по адресу http://localhost:8080/books можем видеть список наших книг в формате json, а по адресу http://localhost:8080/books/1 - данные одной книги. Можем создавать, удавлять и обновлять наши записи.
+
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/755320b2d6eff2f8023453e9659a238f290d574e)
