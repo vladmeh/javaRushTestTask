@@ -30,7 +30,7 @@ public class BookController {
         return bookService.findById(id);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     public @ResponseBody
     Book create(@RequestBody Book book){
         logger.info("Creating book: " + book);
