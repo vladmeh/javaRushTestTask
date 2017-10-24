@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +29,23 @@ public class BookController {
 
     @GetMapping(path = "")
     public @ResponseBody
-    Page<Book> getPageBooks(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
-        return bookService.findAllByPage(new PageRequest(page, 10));
+    Page<Book> getPageBooks(
+            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "id") String sortBy,
+            @RequestParam(required = false, defaultValue = "ask") String order
+    ){
+        Sort sort = null;
+        String orderBy = sortBy;
+        if (orderBy != null && order != null){
+            if (order.equals("desc")) sort = new Sort(Sort.Direction.DESC, orderBy);
+            else sort = new Sort(Sort.Direction.ASC, orderBy);
+        }
+
+        PageRequest pageRequest;
+        if (sort != null) pageRequest = new PageRequest(page, 10, sort);
+        else pageRequest = new PageRequest(page, 10);
+
+        return bookService.findAllByPage(pageRequest);
     }
 
     @GetMapping(path = "/{id}")
