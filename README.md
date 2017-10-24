@@ -167,5 +167,6 @@
 ##### Разбиение на страницы.
 * Модифицируем контроллер [BookController](https://github.com/vladmeh/javaRushTestTask/blob/edf9a5c3b1b914c46273ca73d18f01f0bb86c9b9/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java)
     * добаляем метод `getPageBooks`, который возращает постраничный список книг, с параметром `page` (номер страницы). Если параметр не указан будет выводиться первая страница.
+    >метод `getAllBook` оставляем (изменим только у него `path`, что бы не было конфликтов), он нам может понадобится.
     
 Сейчас по запросу в браузере http://localhost:8080/books?page=1 будет выводиться 2-я страница списка наших книг
