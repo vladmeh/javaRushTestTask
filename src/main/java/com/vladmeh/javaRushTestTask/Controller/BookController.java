@@ -5,6 +5,8 @@ import com.vladmeh.javaRushTestTask.Service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +20,16 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @GetMapping(path = "")
+    @GetMapping(path = "/all")
     public @ResponseBody
     List<Book> getAllBook() {
         return bookService.findAll();
+    }
+
+    @GetMapping(path = "")
+    public @ResponseBody
+    Page<Book> getPageBooks(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
+        return bookService.findAllByPage(new PageRequest(page, 10));
     }
 
     @GetMapping(path = "/{id}")
