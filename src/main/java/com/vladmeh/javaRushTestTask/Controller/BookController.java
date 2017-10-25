@@ -30,21 +30,17 @@ public class BookController {
     @GetMapping(path = "")
     public @ResponseBody
     Page<Book> getPageBooks(
-            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "id") String sortBy,
             @RequestParam(required = false, defaultValue = "ask") String order
-    ){
-        Sort sort = null;
-        String orderBy = sortBy;
-        if (orderBy != null && order != null){
-            if (order.equals("desc")) sort = new Sort(Sort.Direction.DESC, orderBy);
-            else sort = new Sort(Sort.Direction.ASC, orderBy);
-        }
+    ) {
+        Sort sort;
+        if (order.equals("desc")) sort = new Sort(Sort.Direction.DESC, sortBy);
+        else sort = new Sort(Sort.Direction.ASC,sortBy);
 
-        PageRequest pageRequest;
-        if (sort != null) pageRequest = new PageRequest(page, 10, sort);
-        else pageRequest = new PageRequest(page, 10);
-
+        //Нумерация страниц для Spring Data JPA начинается с 0
+        Integer pageNumber = (page > 0) ? page-1 : 0;
+        PageRequest pageRequest = new PageRequest(pageNumber, 10, sort);
         return bookService.findAllByPage(pageRequest);
     }
 
@@ -56,7 +52,7 @@ public class BookController {
 
     @PostMapping(value = "")
     public @ResponseBody
-    Book create(@RequestBody Book book){
+    Book create(@RequestBody Book book) {
         logger.info("Creating book: " + book);
         bookService.save(book);
         logger.info("Book created successfully with info: " + book);
@@ -66,7 +62,7 @@ public class BookController {
 
     @PutMapping(value = "/{id}")
     public @ResponseBody
-    void update(@RequestBody Book book, @PathVariable Long id){
+    void update(@RequestBody Book book, @PathVariable Long id) {
         logger.info("Updating book: " + book);
         bookService.save(book);
         logger.info("Book update successfully with info: " + book);
@@ -74,7 +70,7 @@ public class BookController {
 
     @DeleteMapping(value = "/{id}")
     public @ResponseBody
-    void delete(@PathVariable Long id){
+    void delete(@PathVariable Long id) {
         logger.info("Deleting book with id: " + id);
         Book book = bookService.findById(id);
         bookService.delete(book);
