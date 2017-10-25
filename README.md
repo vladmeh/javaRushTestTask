@@ -172,7 +172,7 @@
 Сейчас по запросу в браузере `http://localhost:8080/books?page=2` будет выводиться 2-я страница списка наших книг
 
 #### Сортировка.
-* Модифицируем контроллер BookController
+* Модифицируем контроллер [BookController](https://github.com/vladmeh/javaRushTestTask/blob/9574047f23b003ab245996c2063547737ab0c078/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java)
     * в метод `getPageBooks` добавляем два параметра `String sortBy` и `String order` отвечающих по какому полю будем сортировать и направление сортировки, соответственно. Выставляем дефолтные значения - по умолчанию (без паравметров) список будет сортироваться по `id` и по возрастанию;
     * реализуем сортировку.
     
