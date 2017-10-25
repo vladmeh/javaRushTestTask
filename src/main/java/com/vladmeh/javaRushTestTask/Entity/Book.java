@@ -23,6 +23,18 @@ public class Book {
 
     private boolean readAlready;
 
+    public Book() {
+    }
+
+    public Book(String title, String description, String autor, String isbn, int printYear, boolean readAlready) {
+        this.title = title;
+        this.description = description;
+        this.autor = autor;
+        this.isbn = isbn;
+        this.printYear = printYear;
+        this.readAlready = readAlready;
+    }
+
     public long getId() {
         return id;
     }

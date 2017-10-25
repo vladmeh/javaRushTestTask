@@ -1,80 +1,159 @@
 package com.vladmeh.javaRushTestTask.Controller;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vladmeh.javaRushTestTask.Application;
 import com.vladmeh.javaRushTestTask.Entity.Book;
 import com.vladmeh.javaRushTestTask.Service.BookService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.mock.http.MockHttpOutputMessage;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
 
-import org.mockito.stubbing.Answer;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.ui.ExtendedModelMap;
-
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
+@WebAppConfiguration
 public class BookControllerTest {
-    private final List<Book> books = new ArrayList<>();
+
+    private static final String PAGE_NUMBER_STRING = "2";
+    private static final int PAGE_NUMBER = Integer.parseInt(PAGE_NUMBER_STRING) - 1;
+    private static final int PAGE_SIZE = 10;
+    private static final String FIELD_NAME_TITLE = "printYear";
+    private static final String SORT_ORDER = "desc";
+
+    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(),
+            Charset.forName("utf8"));
+
+    private MockMvc mockMvc;
+
+    private HttpMessageConverter<Object> mappingJackson2HttpMessageConverter;
+
+    private List<Book> bookList = new ArrayList<>();
+
+    private Pageable pageRequest;
+
+    @Autowired
+    private BookService bookService;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @Autowired
+    void setConverters(HttpMessageConverter<?>[] converters) {
+
+        HttpMessageConverter mappingJackson2HttpMessageConverter = Arrays.stream(converters)
+                .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter)
+                .findAny()
+                .orElse(null);
+
+        assertNotNull("the JSON message converter must not be null",
+                mappingJackson2HttpMessageConverter);
+    }
+
 
     @Before
-    public void initBooks(){
-        Book book = new Book();
-        book.setId(1L);
-        book.setAutor("Иван Портянкин");
-        book.setTitle("Swing. Эффектные пользовательские интерфейсы");
-        book.setDescription("Создание пользовательских интерфейсов Java-приложений с помощью библиотеки Swing и Java Foundation Classes");
-        book.setIsbn("978-5-85582-305-9");
-        book.setPrintYear(2011);
-        book.setReadAlready(false);
-
-        books.add(book);
-    }
-
-
-    @Test
-    public void getAllBookTest(){
-        BookService bookService = mock(BookService.class);
-        when(bookService.findAll()).thenReturn(books);
-
-        BookController bookController = new BookController();
-
-        ReflectionTestUtils.setField(bookController, "bookService", bookService);
-
-        ExtendedModelMap uiModel = new ExtendedModelMap();
-        uiModel.addAttribute("books", bookController.getAllBook());
-
-        assertEquals(1, books.size());
+    public void setUp() throws Exception {
+        this.mockMvc = webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
-    public void createTest(){
-        final Book newBook = new Book();
-        newBook.setId(999L);
-        newBook.setAutor("Джошуа Блох");
-        newBook.setTitle("Java. Эффективное программирование");
-        newBook.setDescription("Первое издание книги \"Java. Эффективное программирование\", содержащей пятьдесят семь ценных правил, предлагает решение задач программирования, с которыми большинство разработчиков сталкиваются каждый день");
-        newBook.setIsbn("978-5-85582-347-9");
-        newBook.setPrintYear(2014);
-        newBook.setReadAlready(false);
+    public void shouldReturnSizeColletionTitleFirstBookAsJson() throws Exception {
+        mockMvc.perform(get("/books/all"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(this.contentType))
+                .andExpect(jsonPath("$", hasSize(13)))
+                .andExpect(jsonPath("$[0].title", is("Spring 4 для профессионалов")))
+        ;
+    }
 
-        BookService bookService = mock(BookService.class);
-        when(bookService.save(newBook)).thenAnswer((Answer<Book>) invocationOnMock -> {
-            books.add(newBook);
-            return newBook;
-        });
+    @Test
+    public void shouldReturnHttpResponseStatusOkNoParam() throws Exception {
+        mockMvc.perform(get("/books")).andExpect(status().isOk());
+    }
 
-        BookController bookController = new BookController();
-        ReflectionTestUtils.setField(bookController, "bookService", bookService);
+    @Test
+    public void shouldReturnHttpResponseStatusOkWithParam() throws Exception {
+        mockMvc.perform(get("/books")
+                .param("page", PAGE_NUMBER_STRING)
+                .param("sortBy", FIELD_NAME_TITLE)
+                .param("order", SORT_ORDER)
+        )
+                .andExpect(status().isOk());
+    }
 
-        Book book = bookController.create(newBook);
-        assertEquals(999L, book.getId());
-        assertEquals("Джошуа Блох", book.getAutor());
-        assertEquals("978-5-85582-347-9", book.getIsbn());
+    @Test
+    public void shouldReturnPageNumberAndPageSizeAsJsonNoParam() throws Exception {
+        mockMvc.perform(get("/books"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(this.contentType))
+                .andExpect(jsonPath("$.number", is(0)))
+                .andExpect(jsonPath("$.size", is(PAGE_SIZE)))
+                .andExpect(jsonPath("$.content", hasSize(10)))
+        ;
+    }
 
-        assertEquals(2, books.size());
+    @Test
+    public void shouldReturnPageNumberAndPageSizeAsJsonWithParam() throws Exception {
+        mockMvc.perform(get("/books")
+                .param("page", PAGE_NUMBER_STRING)
+                .param("sortBy", FIELD_NAME_TITLE)
+                .param("order", SORT_ORDER)
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(this.contentType))
+                .andExpect(jsonPath("$.number", is(PAGE_NUMBER)))
+                .andExpect(jsonPath("$.size", is(PAGE_SIZE)));
+    }
+
+    @Test
+    public void shouldReturnHttpResponseStatusIsCreated() throws Exception {
+        String bookJson = json(new Book(
+                "Swing. Эффектные пользовательские интерфейсы",
+                "Иван Портянкин",
+                "Создание пользовательских интерфейсов Java-приложений с помощью библиотеки Swing и Java Foundation Classes",
+                "978-5-85582-305-9",
+                2011,
+                false
+                ));
+
+        mockMvc.perform(post("/books")
+                .contentType(contentType)
+                .content(bookJson)
+            )
+            .andExpect(status().isCreated());
+    }
+
+    protected String json(Object o) throws IOException {
+        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
+
+        mappingJackson2HttpMessageConverter.write(
+                o ,MediaType.APPLICATION_JSON, mockHttpOutputMessage);
+
+        return mockHttpOutputMessage.getBodyAsString();
     }
 }

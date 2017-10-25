@@ -177,3 +177,9 @@
     * реализуем сортировку.
     
 По запросу в браузере `http://localhost:8080/books?page=2&sortBy=printYear&order=desc` будет выводиться 2-я страница списка наших книг, список отсортирован по году выпуска книги, по убыванию.
+
+#### Тестирование
+В имеющимся тестовом классе `Controller.BookControllerTest` мы, по-сути, тестировали поведение нашего сервиса `BookService`. Поэтому переименуем тестовый класс на Service.BookServiceTest.
+
+* Переименовываем `Controller.BookControllerTest` -> `Service.BookServiceTest`;
+* Создаем новый тестовый класс Controller.BookControllerTest.
