@@ -2,6 +2,7 @@ package com.vladmeh.javaRushTestTask.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladmeh.javaRushTestTask.Application;
+import com.vladmeh.javaRushTestTask.BookBuilder;
 import com.vladmeh.javaRushTestTask.Entity.Book;
 import com.vladmeh.javaRushTestTask.Service.BookService;
 import org.junit.Before;
@@ -48,7 +49,7 @@ public class BookControllerTest {
 
     private MockMvc mockMvc;
 
-    private HttpMessageConverter<Object> mappingJackson2HttpMessageConverter;
+    private HttpMessageConverter mappingJackson2HttpMessageConverter;
 
     private List<Book> bookList = new ArrayList<>();
 
@@ -66,7 +67,7 @@ public class BookControllerTest {
     @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
 
-        HttpMessageConverter mappingJackson2HttpMessageConverter = Arrays.stream(converters)
+        mappingJackson2HttpMessageConverter = Arrays.stream(converters)
                 .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter)
                 .findAny()
                 .orElse(null);
@@ -82,7 +83,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnSizeColletionTitleFirstBookAsJson() throws Exception {
+    public void getAllBook_shouldReturnSizeColletionTitleFirstBookAsJson() throws Exception {
         mockMvc.perform(get("/books/all"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(this.contentType))
@@ -92,12 +93,12 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnHttpResponseStatusOkNoParam() throws Exception {
+    public void getPageBooks_shouldReturnHttpResponseStatusOkNoParam() throws Exception {
         mockMvc.perform(get("/books")).andExpect(status().isOk());
     }
 
     @Test
-    public void shouldReturnHttpResponseStatusOkWithParam() throws Exception {
+    public void getPageBooks_shouldReturnHttpResponseStatusOkWithParam() throws Exception {
         mockMvc.perform(get("/books")
                 .param("page", PAGE_NUMBER_STRING)
                 .param("sortBy", FIELD_NAME_TITLE)
@@ -107,7 +108,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnPageNumberAndPageSizeAsJsonNoParam() throws Exception {
+    public void getPageBooks_shouldReturnPageNumberAndPageSizeAsJsonNoParam() throws Exception {
         mockMvc.perform(get("/books"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(this.contentType))
@@ -118,7 +119,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnPageNumberAndPageSizeAsJsonWithParam() throws Exception {
+    public void getPageBooks_shouldReturnPageNumberAndPageSizeAsJsonWithParam() throws Exception {
         mockMvc.perform(get("/books")
                 .param("page", PAGE_NUMBER_STRING)
                 .param("sortBy", FIELD_NAME_TITLE)
@@ -131,31 +132,60 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shouldReturnHttpResponseStatusIsCreated() throws Exception {
-        /*String bookJson = json(new Book(
-                "Swing. Эффектные пользовательские интерфейсы",
-                "Иван Портянкин",
-                "Создание пользовательских интерфейсов Java-приложений с помощью библиотеки Swing и Java Foundation Classes",
-                "978-5-85582-305-9",
-                2011,
-                false
-                ));*/
+    public void findBookById_shouldReturnHttpResponseStatusIsOKAndTitleAsJson() throws Exception{
+        mockMvc.perform(get("/books/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(this.contentType))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.title", is("Spring 4 для профессионалов")));
+    }
 
-        String contentJson = "{\"title\": \"PHP объекты, шаблоны и методики программирования\",\"description\": \"Создавайте высокопрофессиональный код на PHP, изучив его объектно-орентированные возможности, шаблоны проектирования и важные средства разработки.\",\"autor\": \"Мет Зандстра\",\"isbn\": \"978-5-8459-1689-1\",\"printYear\": 2013,\"readAlready\": true}";
+    @Test
+    public void create_shouldReturnHttpResponseStatusIsCreated() throws Exception {
+        Book book = new BookBuilder()
+                .autor("Иван Портянкин")
+                .title("Swing. Эффектные пользовательские интерфейсы")
+                .description("Создание пользовательских интерфейсов Java-приложений с помощью библиотеки Swing и Java Foundation Classes")
+                .isbn("978-5-85582-305-9")
+                .printYear(2011)
+                .readAlready(false)
+                .build();
+
+        String bookJson = json(book);
 
         mockMvc.perform(post("/books")
                 .contentType(contentType)
-                .content(contentJson)
+                .content(bookJson)
             )
-            .andExpect(status().isCreated());
+            .andExpect(status().isOk());
     }
 
-    /*protected String json(Object o) throws IOException {
+    @Test
+    public void update__shouldReturnHttpResponseStatusIsOK() throws Exception{
+        Book book = new BookBuilder()
+                .autor("Мет Зандстр")
+                .title("PHP объекты, шаблоны и методики программирования")
+                .description("Создавайте высокопрофессиональный код на PHP, изучив его объектно-орентированные возможности, шаблоны проектирования и важные средства разработ")
+                .isbn("978-5-8459-1689-1")
+                .printYear(2013)
+                .readAlready(true)
+                .build();
+
+        String bookJson = json(book);
+
+        mockMvc.perform(put("/books/{id}", 31L)
+                .contentType(contentType)
+                .content(bookJson)
+        )
+                .andExpect(status().isOk());
+    }
+
+    protected String json(Object o) throws IOException {
         MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
 
-        mappingJackson2HttpMessageConverter.write(
+        this.mappingJackson2HttpMessageConverter.write(
                 o ,MediaType.APPLICATION_JSON, mockHttpOutputMessage);
 
         return mockHttpOutputMessage.getBodyAsString();
-    }*/
+    }
 }
