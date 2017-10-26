@@ -86,7 +86,7 @@ public class BookControllerTest {
         mockMvc.perform(get("/books/all"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(this.contentType))
-                .andExpect(jsonPath("$", hasSize(13)))
+                .andExpect(jsonPath("$", hasSize(14)))
                 .andExpect(jsonPath("$[0].title", is("Spring 4 для профессионалов")))
         ;
     }
@@ -132,28 +132,30 @@ public class BookControllerTest {
 
     @Test
     public void shouldReturnHttpResponseStatusIsCreated() throws Exception {
-        String bookJson = json(new Book(
+        /*String bookJson = json(new Book(
                 "Swing. Эффектные пользовательские интерфейсы",
                 "Иван Портянкин",
                 "Создание пользовательских интерфейсов Java-приложений с помощью библиотеки Swing и Java Foundation Classes",
                 "978-5-85582-305-9",
                 2011,
                 false
-                ));
+                ));*/
+
+        String contentJson = "{\"title\": \"PHP объекты, шаблоны и методики программирования\",\"description\": \"Создавайте высокопрофессиональный код на PHP, изучив его объектно-орентированные возможности, шаблоны проектирования и важные средства разработки.\",\"autor\": \"Мет Зандстра\",\"isbn\": \"978-5-8459-1689-1\",\"printYear\": 2013,\"readAlready\": true}";
 
         mockMvc.perform(post("/books")
                 .contentType(contentType)
-                .content(bookJson)
+                .content(contentJson)
             )
             .andExpect(status().isCreated());
     }
 
-    protected String json(Object o) throws IOException {
+    /*protected String json(Object o) throws IOException {
         MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
 
         mappingJackson2HttpMessageConverter.write(
                 o ,MediaType.APPLICATION_JSON, mockHttpOutputMessage);
 
         return mockHttpOutputMessage.getBodyAsString();
-    }
+    }*/
 }
