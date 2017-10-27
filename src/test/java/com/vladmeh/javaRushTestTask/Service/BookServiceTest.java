@@ -1,6 +1,7 @@
 package com.vladmeh.javaRushTestTask.Service;
 
 
+import com.vladmeh.javaRushTestTask.BookBuilder;
 import com.vladmeh.javaRushTestTask.Controller.BookController;
 import com.vladmeh.javaRushTestTask.Entity.Book;
 import org.junit.Before;
@@ -22,14 +23,15 @@ public class BookServiceTest {
 
     @Before
     public void initBooks(){
-        Book book = new Book();
-        book.setId(1L);
-        book.setAutor("Иван Портянкин");
-        book.setTitle("Swing. Эффектные пользовательские интерфейсы");
-        book.setDescription("Создание пользовательских интерфейсов Java-приложений с помощью библиотеки Swing и Java Foundation Classes");
-        book.setIsbn("978-5-85582-305-9");
-        book.setPrintYear(2011);
-        book.setReadAlready(false);
+        Book book = new BookBuilder()
+                .id(990L)
+                .autor("Иван Портянкин")
+                .title("Swing. Эффектные пользовательские интерфейсы")
+                .description("Создание пользовательских интерфейсов Java-приложений с помощью библиотеки Swing и Java Foundation Classes")
+                .isbn("978-5-85582-305-9")
+                .printYear(2011)
+                .readAlready(false)
+                .build();
 
         books.add(book);
     }
@@ -52,14 +54,15 @@ public class BookServiceTest {
 
     @Test
     public void createTest() throws Exception{
-        final Book newBook = new Book();
-        newBook.setId(999L);
-        newBook.setAutor("Джошуа Блох");
-        newBook.setTitle("Java. Эффективное программирование");
-        newBook.setDescription("Первое издание книги \"Java. Эффективное программирование\", содержащей пятьдесят семь ценных правил, предлагает решение задач программирования, с которыми большинство разработчиков сталкиваются каждый день");
-        newBook.setIsbn("978-5-85582-347-9");
-        newBook.setPrintYear(2014);
-        newBook.setReadAlready(false);
+        final Book newBook = new BookBuilder()
+                .id(999L)
+                .autor("Джошуа Блох")
+                .title("Java. Эффективное программирование")
+                .description("Первое издание книги \"Java. Эффективное программирование\", содержащей пятьдесят семь ценных правил, предлагает решение задач программирования, с которыми большинство разработчиков сталкиваются каждый день")
+                .isbn("978-5-85582-347-9")
+                .printYear(2014)
+                .readAlready(false)
+                .build();
 
         BookService bookService = mock(BookService.class);
         when(bookService.save(newBook)).thenAnswer((Answer<Book>) invocationOnMock -> {

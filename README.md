@@ -182,4 +182,14 @@
 В имеющимся тестовом классе `Controller.BookControllerTest` мы, по-сути, тестировали поведение нашего сервиса `BookService`. Поэтому переименуем тестовый класс на Service.BookServiceTest.
 
 * Переименовываем `Controller.BookControllerTest` -> `Service.BookServiceTest`;
+* Создаем класс BookBuilder, для чего это надо и что это такое читаем [здесь](http://www.natpryce.com/articles/000714.html)
 * Создаем новый тестовый класс Controller.BookControllerTest.
+    * пишем методы для тестирования ответа сервера на наши запросы в разных вариациях
+    * при тестировании методов `create`, `update`, `delete` используем `Transactional` и `EntityManager` который методом `flush()` сбрасывает все изменения в базе данных.
+    
+>Подробнее по тестированию Spring MVC читаем [здесь](https://spring.io/guides/tutorials/bookmarks/#_testing_a_rest_service), 
+> [здесь](https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-rest-api/) и [здесь](https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/), а так-же в книге "Spring 4 для профессионалов", которая прилается в доп материалах к тестовому заданию.
+
+При тестировании метода `update` контроллера `BookController` обнаружилось что он (метод) работает неправильно. По сути он делает тоже что и метод `create`.
+
+#### Исправляем метод BookController.create() 

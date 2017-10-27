@@ -4,34 +4,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladmeh.javaRushTestTask.Application;
 import com.vladmeh.javaRushTestTask.BookBuilder;
 import com.vladmeh.javaRushTestTask.Entity.Book;
-import com.vladmeh.javaRushTestTask.Service.BookService;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.IOException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
+@Transactional
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
@@ -42,6 +38,7 @@ public class BookControllerTest {
     private static final int PAGE_SIZE = 10;
     private static final String FIELD_NAME_TITLE = "printYear";
     private static final String SORT_ORDER = "desc";
+    private static final Long TEST_BOOK_ID = 1L;
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -49,32 +46,14 @@ public class BookControllerTest {
 
     private MockMvc mockMvc;
 
-    private HttpMessageConverter mappingJackson2HttpMessageConverter;
-
-    private List<Book> bookList = new ArrayList<>();
-
-    private Pageable pageRequest;
-
-    @Autowired
-    private BookService bookService;
+    @PersistenceContext
+    private EntityManager em;
 
     @Autowired
     ObjectMapper objectMapper;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
-
-    @Autowired
-    void setConverters(HttpMessageConverter<?>[] converters) {
-
-        mappingJackson2HttpMessageConverter = Arrays.stream(converters)
-                .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter)
-                .findAny()
-                .orElse(null);
-
-        assertNotNull("the JSON message converter must not be null",
-                mappingJackson2HttpMessageConverter);
-    }
 
 
     @Before
@@ -87,7 +66,6 @@ public class BookControllerTest {
         mockMvc.perform(get("/books/all"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(this.contentType))
-                .andExpect(jsonPath("$", hasSize(14)))
                 .andExpect(jsonPath("$[0].title", is("Spring 4 для профессионалов")))
         ;
     }
@@ -135,7 +113,7 @@ public class BookControllerTest {
     public void findBookById_shouldReturnHttpResponseStatusIsOKAndTitleAsJson() throws Exception{
         mockMvc.perform(get("/books/{id}", 1L))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(this.contentType))
+                .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("Spring 4 для профессионалов")));
     }
@@ -151,17 +129,18 @@ public class BookControllerTest {
                 .readAlready(false)
                 .build();
 
-        String bookJson = json(book);
-
         mockMvc.perform(post("/books")
-                .contentType(contentType)
-                .content(bookJson)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(book))
             )
-            .andExpect(status().isOk());
+            .andExpect(status().isCreated());
+
+        em.flush();
     }
 
     @Test
     public void update__shouldReturnHttpResponseStatusIsOK() throws Exception{
+
         Book book = new BookBuilder()
                 .autor("Мет Зандстр")
                 .title("PHP объекты, шаблоны и методики программирования")
@@ -171,21 +150,40 @@ public class BookControllerTest {
                 .readAlready(true)
                 .build();
 
-        String bookJson = json(book);
-
-        mockMvc.perform(put("/books/{id}", 31L)
-                .contentType(contentType)
-                .content(bookJson)
+        mockMvc.perform(put("/books/{id}", TEST_BOOK_ID)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(book))
         )
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string("update Book #" + TEST_BOOK_ID))
+        ;
+
+        em.flush();
     }
 
-    protected String json(Object o) throws IOException {
-        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
+    @Test
+    public void update_shouldReturnHttpResponseStatusIsOkAndIsReadAlReadyFalse() throws Exception{
 
-        this.mappingJackson2HttpMessageConverter.write(
-                o ,MediaType.APPLICATION_JSON, mockHttpOutputMessage);
+        Book book = new BookBuilder().readAlready(false).build();
 
-        return mockHttpOutputMessage.getBodyAsString();
+        mockMvc.perform(put("/books/{id}", TEST_BOOK_ID).contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(book))
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().string("update Book #" + TEST_BOOK_ID))
+        ;
+
+        em.flush();
+    }
+
+    @Test
+    public void delete_shouldReturnHttpResponseStatusIsOkAndContentIsDeleted() throws Exception{
+
+        mockMvc.perform(delete("/books/{id}", TEST_BOOK_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().string("deleted Book #" + TEST_BOOK_ID))
+        ;
+
+        em.flush();
     }
 }
