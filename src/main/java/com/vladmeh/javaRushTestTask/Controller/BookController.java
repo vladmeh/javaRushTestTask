@@ -65,9 +65,16 @@ public class BookController {
     @PutMapping(value = "/{id}")
     public @ResponseBody
     void update(@RequestBody Book book, @PathVariable Long id) {
-        logger.info("Updating book: " + book);
-        bookService.save(book);
-        logger.info("Book update successfully with info: " + book);
+        Book bookUpdate = bookService.findById(id);
+        logger.info("Updating book: " + bookUpdate);
+        if (book.getAutor() != null) bookUpdate.setAutor(book.getAutor());
+        if (book.getTitle() != null) bookUpdate.setTitle(book.getTitle());
+        if (book.getDescription() != null) bookUpdate.setDescription(book.getDescription());
+        if (book.getIsbn() != null) bookUpdate.setIsbn(book.getIsbn());
+        if (book.getPrintYear() != 0) bookUpdate.setPrintYear(book.getPrintYear());
+        bookUpdate.setReadAlready(book.isReadAlready());
+        bookService.save(bookUpdate);
+        logger.info("Book update successfully with info: " + bookUpdate);
     }
 
     @DeleteMapping(value = "/{id}")
