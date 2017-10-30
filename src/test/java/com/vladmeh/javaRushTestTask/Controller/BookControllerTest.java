@@ -139,7 +139,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void update__shouldReturnHttpResponseStatusIsOK() throws Exception{
+    public void updateAllData__shouldReturnHttpResponseStatusIsOK() throws Exception{
 
         Book book = new BookBuilder()
                 .autor("Мет Зандстр")
@@ -155,14 +155,15 @@ public class BookControllerTest {
                 .content(objectMapper.writeValueAsString(book))
         )
                 .andExpect(status().isOk())
-                .andExpect(content().string("update Book #" + TEST_BOOK_ID))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.title", is("PHP объекты, шаблоны и методики программирования")))
         ;
 
         em.flush();
     }
 
     @Test
-    public void update_shouldReturnHttpResponseStatusIsOkAndIsReadAlReadyFalse() throws Exception{
+    public void updateOneFieldData_shouldReturnHttpResponseStatusIsOkAndIsReadAlReadyFalse() throws Exception{
 
         Book book = new BookBuilder().readAlready(false).build();
 
@@ -170,7 +171,8 @@ public class BookControllerTest {
                 .content(objectMapper.writeValueAsString(book))
         )
                 .andExpect(status().isOk())
-                .andExpect(content().string("update Book #" + TEST_BOOK_ID))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.readAlready", is(false)))
         ;
 
         em.flush();

@@ -49,7 +49,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void update(Book book, Long id) {
+    public Book update(Book book, Long id) {
         Book entity = bookRepository.findOne(id);
         if (book.getAutor() != null) entity.setAutor(book.getAutor());
         if (book.getTitle() != null) entity.setTitle(book.getTitle());
@@ -58,6 +58,6 @@ public class BookServiceImpl implements BookService {
         if (book.getPrintYear() != 0) entity.setPrintYear(book.getPrintYear());
         entity.setReadAlready(book.isReadAlready());
 
-        bookRepository.save(entity);
+        return bookRepository.save(entity);
     }
 }

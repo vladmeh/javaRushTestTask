@@ -65,11 +65,11 @@ public class BookController {
 
     @PutMapping(value = "/{id}")
     public @ResponseBody
-    ResponseEntity<?> update(@RequestBody Book book, @PathVariable Long id){
+    Book update(@RequestBody Book book, @PathVariable Long id){
         logger.info("Updating book: " + book);
-        bookService.update(book, id);
+        Book updateBook = bookService.update(book, id);
         logger.info("Book update successfully with info: " + book);
-        return ResponseEntity.ok("update Book #" + id);
+        return updateBook;
     }
 
     @DeleteMapping(value = "/{id}")

@@ -179,12 +179,16 @@
 По запросу в браузере `http://localhost:8080/books?page=2&sortBy=printYear&order=desc` будет выводиться 2-я страница списка наших книг, список отсортирован по году выпуска книги, по убыванию.
 
 #### Тестирование
+* Создаем класс BookBuilder
+* Создаем класс PageBuilder
+    >для чего это надо и что это такое читаем [здесь](http://www.natpryce.com/articles/000714.html)
+    
 В имеющимся тестовом классе `Controller.BookControllerTest` мы, по-сути, тестировали поведение нашего сервиса `BookService`. Поэтому переименуем тестовый класс на Service.BookServiceTest.
 
 * Переименовываем `Controller.BookControllerTest` -> `Service.BookServiceTest`;
-* Создаем класс BookBuilder, для чего это надо и что это такое читаем [здесь](http://www.natpryce.com/articles/000714.html)
+    * пишем модульные тесты для методов `getPageBooks`, `findBookById`, `delete`;
 * Создаем новый тестовый класс Controller.BookControllerTest.
-    * пишем методы для тестирования ответа сервера на наши запросы в разных вариациях
+    * пишем методы для тестирования ответа сервера на наши запросы, в разных вариациях
     * при тестировании методов `create`, `update`, `delete` используем `Transactional` и `EntityManager` который методом `flush()` сбрасывает все изменения в базе данных.
     
 >Подробнее по тестированию Spring MVC читаем [здесь](https://spring.io/guides/tutorials/bookmarks/#_testing_a_rest_service), 
@@ -192,4 +196,8 @@
 
 При тестировании метода `update` контроллера `BookController` обнаружилось что он (метод) работает неправильно. По сути он делает тоже что и метод `create`.
 
-#### Исправляем метод BookController.create() 
+#### Исправляем метод BookController.update() 
+* В сервис Service.BookService пишем новый метод `Book update()`;
+* Реализуем его в классе Service.BookServiceImpl;
+* Вносим изменения в метод BookController.update().
+* Пишем модульный тест в BookServiceTest для метода `update`

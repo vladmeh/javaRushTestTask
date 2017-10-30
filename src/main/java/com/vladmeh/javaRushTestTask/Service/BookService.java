@@ -14,5 +14,5 @@ public interface BookService {
     void delete(Book book);
     Page<Book> findAllByPage(Pageable pageable);
 
-    void update(Book book, Long id);
+    Book update(Book book, Long id);
 }
