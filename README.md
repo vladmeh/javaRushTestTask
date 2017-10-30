@@ -179,15 +179,15 @@
 По запросу в браузере `http://localhost:8080/books?page=2&sortBy=printYear&order=desc` будет выводиться 2-я страница списка наших книг, список отсортирован по году выпуска книги, по убыванию.
 
 #### Тестирование
-* Создаем класс BookBuilder
-* Создаем класс PageBuilder
+* Создаем класс [BookBuilder](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/test/java/com/vladmeh/javaRushTestTask/BookBuilder.java)
+* Создаем класс [PageBuilder](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/test/java/com/vladmeh/javaRushTestTask/PageBuilder.java)
     >для чего это надо и что это такое читаем [здесь](http://www.natpryce.com/articles/000714.html)
     
-В имеющимся тестовом классе `Controller.BookControllerTest` мы, по-сути, тестировали поведение нашего сервиса `BookService`. Поэтому переименуем тестовый класс на Service.BookServiceTest.
+В имеющимся тестовом классе `Controller.BookControllerTest` мы, по-сути, тестировали поведение нашего сервиса `BookService`. Поэтому переименуем тестовый класс на [Service.BookServiceTest](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/test/java/com/vladmeh/javaRushTestTask/Service/BookServiceTest.java).
 
 * Переименовываем `Controller.BookControllerTest` -> `Service.BookServiceTest`;
     * пишем модульные тесты для методов `getPageBooks`, `findBookById`, `delete`;
-* Создаем новый тестовый класс Controller.BookControllerTest.
+* Создаем новый тестовый класс [Controller.BookControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java).
     * пишем методы для тестирования ответа сервера на наши запросы, в разных вариациях
     * при тестировании методов `create`, `update`, `delete` используем `Transactional` и `EntityManager` который методом `flush()` сбрасывает все изменения в базе данных.
     
@@ -197,7 +197,7 @@
 При тестировании метода `update` контроллера `BookController` обнаружилось что он (метод) работает неправильно. По сути он делает тоже что и метод `create`.
 
 #### Исправляем метод BookController.update() 
-* В сервис Service.BookService пишем новый метод `Book update()`;
-* Реализуем его в классе Service.BookServiceImpl;
-* Вносим изменения в метод BookController.update().
-* Пишем модульный тест в BookServiceTest для метода `update`
+* В сервис [Service.BookService](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/main/java/com/vladmeh/javaRushTestTask/Service/BookService.java) пишем новый метод `Book update()`;
+* Реализуем его в классе [Service.BookServiceImpl](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/main/java/com/vladmeh/javaRushTestTask/Service/BookServiceImpl.java);
+* Вносим изменения в метод [BookController.update()](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java).
+* Пишем модульный тест в [BookServiceTest](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/test/java/com/vladmeh/javaRushTestTask/Service/BookServiceTest.java) для метода `update`
