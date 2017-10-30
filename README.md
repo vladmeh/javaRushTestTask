@@ -203,3 +203,5 @@
 * Пишем модульный тест в [BookServiceTest](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/test/java/com/vladmeh/javaRushTestTask/Service/BookServiceTest.java) для метода `update`
 
 [Итог](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4)
+
+### 9. Поиск

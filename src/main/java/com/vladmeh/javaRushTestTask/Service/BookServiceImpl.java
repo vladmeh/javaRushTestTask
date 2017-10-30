@@ -60,4 +60,14 @@ public class BookServiceImpl implements BookService {
 
         return bookRepository.save(entity);
     }
+
+    @Override
+    public List<Book> search(String term) {
+        return bookRepository.findBySearchTerm(term);
+    }
+
+    @Override
+    public Page<Book> search(String term, Pageable pageable) {
+        return bookRepository.findBySearchTerm(term, pageable);
+    }
 }

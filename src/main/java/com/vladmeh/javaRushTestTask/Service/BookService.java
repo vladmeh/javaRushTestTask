@@ -15,4 +15,6 @@ public interface BookService {
     Page<Book> findAllByPage(Pageable pageable);
 
     Book update(Book book, Long id);
+    List<Book> search(String term);
+    Page<Book> search(String term, Pageable pageable);
 }

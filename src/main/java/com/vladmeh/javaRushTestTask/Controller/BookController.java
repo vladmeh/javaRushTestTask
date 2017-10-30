@@ -38,10 +38,10 @@ public class BookController {
     ) {
         Sort sort;
         if (order.equals("desc")) sort = new Sort(Sort.Direction.DESC, sortBy);
-        else sort = new Sort(Sort.Direction.ASC,sortBy);
+        else sort = new Sort(Sort.Direction.ASC, sortBy);
 
         //Нумерация страниц для Spring Data JPA начинается с 0
-        Integer pageNumber = (page > 0) ? page-1 : 0;
+        Integer pageNumber = (page > 0) ? page - 1 : 0;
         PageRequest pageRequest = new PageRequest(pageNumber, 10, sort);
         return bookService.findAllByPage(pageRequest);
     }
@@ -65,7 +65,7 @@ public class BookController {
 
     @PutMapping(value = "/{id}")
     public @ResponseBody
-    Book update(@RequestBody Book book, @PathVariable Long id){
+    Book update(@RequestBody Book book, @PathVariable Long id) {
         logger.info("Updating book: " + book);
         Book updateBook = bookService.update(book, id);
         logger.info("Book update successfully with info: " + book);
@@ -81,5 +81,32 @@ public class BookController {
         logger.info("book deleted successfully");
 
         return ResponseEntity.ok("deleted Book #" + id);
+    }
+
+    /* @GetMapping(path = "/search")
+    public @ResponseBody
+    Page<Book> search(
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "id") String sortBy,
+            @RequestParam(required = false, defaultValue = "ask") String order,
+            @RequestParam() String search
+    ){
+        Sort sort;
+        if (order.equals("desc")) sort = new Sort(Sort.Direction.DESC, sortBy);
+        else sort = new Sort(Sort.Direction.ASC,sortBy);
+
+        //Нумерация страниц для Spring Data JPA начинается с 0
+        Integer pageNumber = (page > 0) ? page-1 : 0;
+        PageRequest pageRequest = new PageRequest(pageNumber, 10, sort);
+        return bookService.search(search, pageRequest);
+    }*/
+
+    @GetMapping(path = "/search")
+    public @ResponseBody
+    Page<Book> search(
+           @RequestParam(required = false, defaultValue = "") String term
+            /* @RequestParam(required = false, defaultValue = "0") int year*/
+    ){
+        return bookService.search(term, new PageRequest(0, 10));
     }
 }
