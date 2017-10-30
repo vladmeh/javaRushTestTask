@@ -157,7 +157,7 @@
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/755320b2d6eff2f8023453e9659a238f290d574e)
 
 
-### Пейджинг и сортировка.
+### 8. Пейджинг и сортировка.
 * Модифицируем интерфейс [BookRepository](https://github.com/vladmeh/javaRushTestTask/blob/edf9a5c3b1b914c46273ca73d18f01f0bb86c9b9/src/main/java/com/vladmeh/javaRushTestTask/Repository/BookRepository.java)
     * изменяем интерфейс так что бы он расширял интерфейс `PagingAndSortingRepository<T, ID extends Serializable>`
 * Делаем изменения в интерфейс [BookService](https://github.com/vladmeh/javaRushTestTask/blob/edf9a5c3b1b914c46273ca73d18f01f0bb86c9b9/src/main/java/com/vladmeh/javaRushTestTask/Service/BookService.java)
@@ -201,3 +201,5 @@
 * Реализуем его в классе [Service.BookServiceImpl](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/main/java/com/vladmeh/javaRushTestTask/Service/BookServiceImpl.java);
 * Вносим изменения в метод [BookController.update()](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java).
 * Пишем модульный тест в [BookServiceTest](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4/src/test/java/com/vladmeh/javaRushTestTask/Service/BookServiceTest.java) для метода `update`
+
+[Итог](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4)
