@@ -20,6 +20,7 @@ import org.springframework.ui.ExtendedModelMap;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
@@ -170,5 +171,28 @@ public class BookServiceTest {
         bookController.delete(1L);
 
         assertEquals(0, books.size());
+    }
+
+    @Test
+    public void searchTest() throws Exception{
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
+
+        Page<Book> bookPage = new PageBuilder<Book>()
+                .elements(books)
+                .pageRequest(new PageRequest(0, 10, sort))
+                .totalElements(1)
+                .build();
+        BookService bookService = mock(BookService.class);
+
+        when(bookService.search(eq("java"), eq(2000), eq(true), isA(Pageable.class))).thenReturn(bookPage);
+
+        BookController bookController = new BookController();
+        ReflectionTestUtils.setField(bookController, "bookService", bookService);
+        Page<Book> books = bookController.search(1, "id", "ask", "java", 2000, "true");
+
+        verify(bookService).search(eq("java"), eq(2000), eq(true), notNull(Pageable.class));
+
+        assertEquals(1, books.getTotalElements());
+        assertEquals(1, books.getTotalPages());
     }
 }

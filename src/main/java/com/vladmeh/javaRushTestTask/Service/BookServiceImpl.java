@@ -62,12 +62,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> search(String term) {
-        return bookRepository.findBySearchTerm(term);
+    @Transactional(readOnly = true)
+    public Page<Book> search(String term, int printYear, Pageable pageable) {
+        return bookRepository.findBySearchParams(term, printYear, pageable);
     }
 
     @Override
-    public Page<Book> search(String term, Pageable pageable) {
-        return bookRepository.findBySearchTerm(term, pageable);
+    @Transactional(readOnly = true)
+    public Page<Book> search(String term, int printYear, boolean readAlReady, Pageable pageable) {
+        return bookRepository.findBySearchParamsAndReadAlready(term, printYear, readAlReady, pageable);
     }
 }

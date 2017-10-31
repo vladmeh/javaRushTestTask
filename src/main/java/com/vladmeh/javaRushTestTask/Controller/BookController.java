@@ -83,13 +83,15 @@ public class BookController {
         return ResponseEntity.ok("deleted Book #" + id);
     }
 
-    /* @GetMapping(path = "/search")
+    @GetMapping(path = "/search")
     public @ResponseBody
     Page<Book> search(
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "id") String sortBy,
             @RequestParam(required = false, defaultValue = "ask") String order,
-            @RequestParam() String search
+            @RequestParam(required = false, defaultValue = "") String term,
+            @RequestParam(required = false, defaultValue = "0") int afterYear,
+            @RequestParam(required = false, defaultValue = "") String ready
     ){
         Sort sort;
         if (order.equals("desc")) sort = new Sort(Sort.Direction.DESC, sortBy);
@@ -98,15 +100,10 @@ public class BookController {
         //Нумерация страниц для Spring Data JPA начинается с 0
         Integer pageNumber = (page > 0) ? page-1 : 0;
         PageRequest pageRequest = new PageRequest(pageNumber, 10, sort);
-        return bookService.search(search, pageRequest);
-    }*/
 
-    @GetMapping(path = "/search")
-    public @ResponseBody
-    Page<Book> search(
-           @RequestParam(required = false, defaultValue = "") String term
-            /* @RequestParam(required = false, defaultValue = "0") int year*/
-    ){
-        return bookService.search(term, new PageRequest(0, 10));
+        if (!ready.equals("") && (ready.equals("true") || ready.equals("false"))){
+            return bookService.search(term, afterYear, Boolean.parseBoolean(ready), pageRequest);
+        }
+        return bookService.search(term, afterYear, pageRequest);
     }
 }

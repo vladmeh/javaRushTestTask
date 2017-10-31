@@ -188,4 +188,40 @@ public class BookControllerTest {
 
         em.flush();
     }
+
+    @Test
+    public void search_shouldReturnHttpResponseStatusOkWithoutParametrs() throws Exception{
+        mockMvc.perform(get("/books/search")).andExpect(status().isOk())
+                .andExpect(content().contentType(this.contentType))
+                .andExpect(jsonPath("$.number", is(0)))
+                .andExpect(jsonPath("$.size", is(PAGE_SIZE)));
+
+    }
+
+    @Test
+    public void search_shouldReturnHttpResponseStatusOkWithSearchTerm() throws Exception{
+        mockMvc.perform(get("/books/search")
+                .param("term", "java")
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(this.contentType));
+    }
+
+    @Test
+    public void search_shouldReturnHttpResponseStatusOkWithAfterYear() throws Exception{
+        mockMvc.perform(get("/books/search")
+                .param("afterYear", "2016")
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(this.contentType));
+    }
+
+    @Test
+    public void search_shouldReturnHttpResponseStatusOkWithRead() throws Exception{
+        mockMvc.perform(get("/books/search")
+                .param("read", "true")
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(this.contentType));
+    }
 }
