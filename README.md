@@ -8,8 +8,8 @@
 * Spring (версия не ниже 4.3.0.RELEASE);
 * Hibernate (версия не ниже 5.2.1.Final);
 * MySQL (база данных). 
-    >Для упрощения тестирования называйте все свою базу `test`, с логином и паролем `root`(намне нужно будет для тестирования создавать кучу лишних и ненужных баз);
-* Frontend: Spring MVCor AngularorVaadinor ZK framework;
+    >Для упрощения тестирования называйте все свою базу `test`, с логином и паролем `root`(нам не нужно будет для тестирования создавать кучу лишних и ненужных баз);
+* Frontend: Spring MVC, или Angular, или Vaadinor, или ZK framework;
 * Результат выложить на GitHub или Bitbucket.
 
 >Версии можно смело брать самые последние. Конфликтов быть не должно.
@@ -44,6 +44,7 @@
 
 **Бизнес-требование:** кроме фильтрации должна быть возможность сортировки заметокпо дате создания (например, поле `createdDateв` БД). Тип поля – `DATE` или `DATETIME`, или `TIMESTAMP`.
 
+***
 
 ### 2. Что нам понадобиться
 
@@ -192,7 +193,7 @@
     * при тестировании методов `create`, `update`, `delete` используем `Transactional` и `EntityManager` который методом `flush()` сбрасывает все изменения в базе данных.
     
 >Подробнее по тестированию Spring MVC читаем [здесь](https://spring.io/guides/tutorials/bookmarks/#_testing_a_rest_service), 
-> [здесь](https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-rest-api/) и [здесь](https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/), а так-же в книге "Spring 4 для профессионалов", которая прилается в доп материалах к тестовому заданию.
+> [здесь](https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-rest-api/) и [здесь](https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/), а так-же в книге "Spring 4 для профессионалов", которая прилагается в доп.материалах к тестовому заданию.
 
 При тестировании метода `update` контроллера `BookController` обнаружилось что он (метод) работает неправильно. По сути он делает тоже что и метод `create`.
 
@@ -205,3 +206,17 @@
 [Итог](https://github.com/vladmeh/javaRushTestTask/blob/222d44b4ffc64f555455192595af58fba8430ca4)
 
 ### 9. Поиск
+* Расширяем [BookRepository](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/main/java/com/vladmeh/javaRushTestTask/Repository/BookRepository.java) 
+    * добавляем методы, в кторых с помощью `@Query` директивы делаем запросы к базе данных.
+    > подробнее читаем [Spring Data JPA Tutorial: Introduction to Query Methods](https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-introduction-to-query-methods/)
+* Добавляем методы поиска в [BookService](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/main/java/com/vladmeh/javaRushTestTask/Service/BookService.java)
+* Реализуем эти методы в [BookServiceImpl](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/main/java/com/vladmeh/javaRushTestTask/Service/BookServiceImpl.java)
+* Добавляем метод search в контроллер [BookController](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java)
+
+Теперь по запросу в браузере `http://localhost:8080/books/search` с параметрами мы можем производить поиск, сортировать, фильтровать наши данные, например по `http://localhost:8080/books/search?term=java&afterYear=2016&order=desc` будет выведен список книг, которые в заголовке, описаниии или авторе содержат слово "java", напечатанные после 2016 года и отсортированные по убыванию.
+
+* Тестируем
+    * добавляем модульный тест в [BookServiceTest](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/test/java/com/vladmeh/javaRushTestTask/Service/BookServiceTest.java)
+    * добавляем интеграционные тесты в [BookControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java)
+    
+На [данном этапе](https://github.com/vladmeh/javaRushTestTask/tree/ede3e501f82de66a152d0622a139aa6ca1ef6768) мы имеем полноценное (простое) REST приложение которое может по нашим запросам возвращать нам данные в формате JSON.
