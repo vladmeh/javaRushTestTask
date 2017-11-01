@@ -211,7 +211,7 @@
     > подробнее читаем [Spring Data JPA Tutorial: Introduction to Query Methods](https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-introduction-to-query-methods/)
 * Добавляем методы поиска в [BookService](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/main/java/com/vladmeh/javaRushTestTask/Service/BookService.java)
 * Реализуем эти методы в [BookServiceImpl](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/main/java/com/vladmeh/javaRushTestTask/Service/BookServiceImpl.java)
-* Добавляем метод search в контроллер [BookController](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java)
+* Добавляем метод `search` в контроллер [BookController](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java)
 
 Теперь по запросу в браузере `http://localhost:8080/books/search` с параметрами мы можем производить поиск, сортировать, фильтровать наши данные, например по `http://localhost:8080/books/search?term=java&afterYear=2016&order=desc` будет выведен список книг, которые в заголовке, описаниии или авторе содержат слово "java", напечатанные после 2016 года и отсортированные по убыванию.
 
@@ -219,4 +219,4 @@
     * добавляем модульный тест в [BookServiceTest](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/test/java/com/vladmeh/javaRushTestTask/Service/BookServiceTest.java)
     * добавляем интеграционные тесты в [BookControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java)
     
-На [данном этапе](https://github.com/vladmeh/javaRushTestTask/tree/ede3e501f82de66a152d0622a139aa6ca1ef6768) мы имеем полноценное (простое) REST приложение которое может по нашим запросам возвращать нам данные в формате JSON.
+На [данном этапе](https://github.com/vladmeh/javaRushTestTask/tree/ede3e501f82de66a152d0622a139aa6ca1ef6768) мы имеем полноценное (простое) CRUD приложение которое может по нашим запросам возвращать нам данные в формате JSON.

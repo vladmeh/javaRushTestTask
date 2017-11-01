@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<!--/*@thymesVar id="name" type=""*/-->
+<h1 th:text="'Hello, ' + ${name} + '!'" ></h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Autor</th>
+        <th>ISBN</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="books" type=""*/-->
+    <tr th:each='book : ${books}'>
+        <!--/*@thymesVar id="title" type=""*/-->
+        <td th:text='${book.title}'></td>
+        <!--/*@thymesVar id="autor" type=""*/-->
+        <td th:text='${book.autor}'></td>
+        <!--/*@thymesVar id="isbn" type=""*/-->
+        <td th:text='${book.isbn}'></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
