@@ -227,7 +227,7 @@
 * [Thymeleaf](http://www.thymeleaf.org/) - шаблонизатор HTML
 * Фреймворк [Bootstrap v.3](https://getbootstrap.com/docs/3.3/)
 
-* Добавляем в pom.xml зависимости Maven для представления
+* Добавляем в [pom.xml](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/pom.xml) зависимости Maven для представления
     * ```xml
         <dependencies>
             <dependency>
@@ -248,38 +248,38 @@
             </dependency>
         </dependencies>
       ```
-* Пишем основной шаблон default.html для нашего приложения;
-* Пишем шаблон для домашней страницы index.html;
-* Изменяем контроллер Controller.HomeAction;
+* Пишем основной шаблон [default.html](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/main/resources/templates/default.html) для нашего приложения;
+* Пишем шаблон для домашней страницы [index.html](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/main/resources/templates/index.html);
+* Изменяем контроллер [Controller.HomeAction](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/main/java/com/vladmeh/javaRushTestTask/Controller/HomeAction.java);
 * Тестируем
     * Проверяем визуально
         * На главной странице http://localhost:8080 должен отображаться текст `Hello, World!` в виде заголовка h1;
         * Если добавить параметр name в запросе, например `http://localhost:8080?name=Vlad`, будет отображаться текст `Hello, Vlad!`;
         
-    * Запускаем тесты ApplicationTest и HttpRequestTest.
+    * Запускаем тесты [ApplicationTest](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/test/java/com/vladmeh/javaRushTestTask/ApplicationTest.java) и [HttpRequestTest](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/test/java/com/vladmeh/javaRushTestTask/HttpRequestTest.java).
     
 > Для построения шаблонов я также испоьзую [Thymeleaf Layout Dialect](https://ultraq.github.io/thymeleaf-layout-dialect/) который позволяет создавать макеты и шаблоны многократного использования.
 
-Чтобы в дальнейшем иметь возможность получать данные в JSON формате, сохранить наши интеграционные тесты и не иметь конфликтов с url, я переименовал BookController -> BookRestController
+Чтобы в дальнейшем иметь возможность получать данные в JSON формате, сохранить наши интеграционные тесты и не иметь конфликтов с url, я переименовал `BookController -> BookRestController`
 
 * Переименовываем контроллер в IJ Idea с помощью `Shift + F6`, что даст нам предложение переименовать упоминание контоллера во всех классах приложения.
     * Автоматически переименуется `BookControllerTest -> BookRestControllerTest`
-* В BookRestController меняем `path = "/books/api"`;
-* В BookRestControllerTest меняем все пути `/books/**` на `books/api/**`;
-* Запускаем BookRestControllerTest и BookServiceTest, все тесты должны проходить.
+* В [BookRestController](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookRestController.java) меняем `path = "/books/api"`;
+* В [BookRestControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookRestControllerTest.java) меняем все пути `/books/**` на `books/api/**`;
+* Запускаем [BookRestControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookRestControllerTest.java) и [BookServiceTest](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/test/java/com/vladmeh/javaRushTestTask/Service/BookServiceTest.java), все тесты должны проходить.
 
 ### 11. Предаствление для списка книг
 
-* Создаем новый BookController
-    * Пишем метод viewBooksList    
-* Создаем шаблон для списка book/list.html
+* Создаем новый [BookController](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java)
+    * Пишем метод `viewBooksList()`    
+* Создаем шаблон для списка [book/list.html](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/main/resources/templates/books/list.html)
 * Тестируем
     * Визуально по запросу http://localhost:8080/books мы можем видеть список первых десяти книг нашего списка в таблице.
     * По запросу http://localhost:8080/books?page=2 - вторую страницу нашего списка.
-    * Пишем интеграционные тесты BookControllerTest
+    * Пишем интеграционные тесты [BookControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java)
         * Тестируем ответ сервера на наш запрос без параметров
         * Тестируем ответ сервера на наш запрос с параметрами
           
-
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/2e84387722e761060440bcdf7a4b42d3d0792dc3)
 
 
