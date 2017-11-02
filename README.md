@@ -220,3 +220,66 @@
     * добавляем интеграционные тесты в [BookControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/ede3e501f82de66a152d0622a139aa6ca1ef6768/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java)
     
 На [данном этапе](https://github.com/vladmeh/javaRushTestTask/tree/ede3e501f82de66a152d0622a139aa6ca1ef6768) мы имеем полноценное (простое) CRUD приложение которое может по нашим запросам возвращать нам данные в формате JSON.
+
+### 10. Создание первого представления
+
+Для реализации визуального представления нашего приложения я использовал
+* [Thymeleaf](http://www.thymeleaf.org/) - шаблонизатор HTML
+* Фреймворк [Bootstrap v.3](https://getbootstrap.com/docs/3.3/)
+
+* Добавляем в pom.xml зависимости Maven для представления
+    * ```xml
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>3.3.7-1</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.webjars/webjars-locator -->
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>webjars-locator</artifactId>
+                <version>0.32-1</version>
+            </dependency>
+        </dependencies>
+      ```
+* Пишем основной шаблон default.html для нашего приложения;
+* Пишем шаблон для домашней страницы index.html;
+* Изменяем контроллер Controller.HomeAction;
+* Тестируем
+    * Проверяем визуально
+        * На главной странице http://localhost:8080 должен отображаться текст `Hello, World!` в виде заголовка h1;
+        * Если добавить параметр name в запросе, например `http://localhost:8080?name=Vlad`, будет отображаться текст `Hello, Vlad!`;
+        
+    * Запускаем тесты ApplicationTest и HttpRequestTest.
+    
+> Для построения шаблонов я также испоьзую [Thymeleaf Layout Dialect](https://ultraq.github.io/thymeleaf-layout-dialect/) который позволяет создавать макеты и шаблоны многократного использования.
+
+Чтобы в дальнейшем иметь возможность получать данные в JSON формате, сохранить наши интеграционные тесты и не иметь конфликтов с url, я переименовал BookController -> BookRestController
+
+* Переименовываем контроллер в IJ Idea с помощью `Shift + F6`, что даст нам предложение переименовать упоминание контоллера во всех классах приложения.
+    * Автоматически переименуется `BookControllerTest -> BookRestControllerTest`
+* В BookRestController меняем `path = "/books/api"`;
+* В BookRestControllerTest меняем все пути `/books/**` на `books/api/**`;
+* Запускаем BookRestControllerTest и BookServiceTest, все тесты должны проходить.
+
+### 11. Предаствление для списка книг
+
+* Создаем новый BookController
+    * Пишем метод viewBooksList    
+* Создаем шаблон для списка book/list.html
+* Тестируем
+    * Визуально по запросу http://localhost:8080/books мы можем видеть список первых десяти книг нашего списка в таблице.
+    * По запросу http://localhost:8080/books?page=2 - вторую страницу нашего списка.
+    * Пишем интеграционные тесты BookControllerTest
+        * Тестируем ответ сервера на наш запрос без параметров
+        * Тестируем ответ сервера на наш запрос с параметрами
+          
+
+
+

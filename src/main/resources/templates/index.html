@@ -1,0 +1,11 @@
+<!DOCTYPE HTML>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="default">
+<body>
+<!--/*@thymesVar id="name" type=""*/-->
+<h1 layout:fragment="pageHead" th:text="'Hello, ' + ${name} + '!'"></h1>
+</body>
+</html>

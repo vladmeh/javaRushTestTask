@@ -2,13 +2,12 @@ package com.vladmeh.javaRushTestTask.Service;
 
 
 import com.vladmeh.javaRushTestTask.BookBuilder;
-import com.vladmeh.javaRushTestTask.Controller.BookController;
+import com.vladmeh.javaRushTestTask.Controller.BookRestController;
 import com.vladmeh.javaRushTestTask.Entity.Book;
 import com.vladmeh.javaRushTestTask.PageBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +19,6 @@ import org.springframework.ui.ExtendedModelMap;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
@@ -50,12 +48,12 @@ public class BookServiceTest {
         BookService bookService = mock(BookService.class);
         when(bookService.findAll()).thenReturn(books);
 
-        BookController bookController = new BookController();
+        BookRestController bookRestController = new BookRestController();
 
-        ReflectionTestUtils.setField(bookController, "bookService", bookService);
+        ReflectionTestUtils.setField(bookRestController, "bookService", bookService);
 
         ExtendedModelMap uiModel = new ExtendedModelMap();
-        uiModel.addAttribute("books", bookController.getAllBook());
+        uiModel.addAttribute("books", bookRestController.getAllBook());
 
         assertEquals(1, books.size());
     }
@@ -73,10 +71,10 @@ public class BookServiceTest {
 
         when(bookService.findAllByPage(isA(Pageable.class))).thenReturn(bookPage);
 
-        BookController bookController = new BookController();
-        ReflectionTestUtils.setField(bookController, "bookService", bookService);
+        BookRestController bookRestController = new BookRestController();
+        ReflectionTestUtils.setField(bookRestController, "bookService", bookService);
 
-        Page<Book> books = bookController.getPageBooks(1, "id", "ask");
+        Page<Book> books = bookRestController.getPageBooks(1, "id", "ask");
 
         verify(bookService).findAllByPage(notNull(Pageable.class));
 
@@ -93,10 +91,10 @@ public class BookServiceTest {
             return null;
         });
 
-        BookController bookController = new BookController();
-        ReflectionTestUtils.setField(bookController, "bookService", bookService);
+        BookRestController bookRestController = new BookRestController();
+        ReflectionTestUtils.setField(bookRestController, "bookService", bookService);
 
-        Book book = bookController.findBookById(1L);
+        Book book = bookRestController.findBookById(1L);
 
         assertEquals(1, book.getId());
     }
@@ -119,10 +117,10 @@ public class BookServiceTest {
             return newBook;
         });
 
-        BookController bookController = new BookController();
-        ReflectionTestUtils.setField(bookController, "bookService", bookService);
+        BookRestController bookRestController = new BookRestController();
+        ReflectionTestUtils.setField(bookRestController, "bookService", bookService);
 
-        Book book = bookController.create(newBook);
+        Book book = bookRestController.create(newBook);
         assertEquals(999L, book.getId());
         assertEquals("Джошуа Блох", book.getAutor());
         assertEquals("978-5-85582-347-9", book.getIsbn());
@@ -146,10 +144,10 @@ public class BookServiceTest {
             return book;
         });
 
-        BookController bookController = new BookController();
-        ReflectionTestUtils.setField(bookController, "bookService", bookService);
+        BookRestController bookRestController = new BookRestController();
+        ReflectionTestUtils.setField(bookRestController, "bookService", bookService);
 
-        Book book = bookController.update(updateDataBook, 1L);
+        Book book = bookRestController.update(updateDataBook, 1L);
         assertEquals(1L, book.getId());
         assertEquals(true, book.isReadAlready());
 
@@ -165,10 +163,10 @@ public class BookServiceTest {
             return null;
         }).when(bookService).delete(any(Book.class));
 
-        BookController bookController = new BookController();
-        ReflectionTestUtils.setField(bookController, "bookService", bookService);
+        BookRestController bookRestController = new BookRestController();
+        ReflectionTestUtils.setField(bookRestController, "bookService", bookService);
 
-        bookController.delete(1L);
+        bookRestController.delete(1L);
 
         assertEquals(0, books.size());
     }
@@ -186,9 +184,9 @@ public class BookServiceTest {
 
         when(bookService.search(eq("java"), eq(2000), eq(true), isA(Pageable.class))).thenReturn(bookPage);
 
-        BookController bookController = new BookController();
-        ReflectionTestUtils.setField(bookController, "bookService", bookService);
-        Page<Book> books = bookController.search(1, "id", "ask", "java", 2000, "true");
+        BookRestController bookRestController = new BookRestController();
+        ReflectionTestUtils.setField(bookRestController, "bookService", bookService);
+        Page<Book> books = bookRestController.search(1, "id", "ask", "java", 2000, "true");
 
         verify(bookService).search(eq("java"), eq(2000), eq(true), notNull(Pageable.class));
 
