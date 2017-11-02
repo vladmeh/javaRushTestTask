@@ -92,11 +92,11 @@
 ### 5. Проверяем работоспособность
 * Создаем первый контроллер [Controller.HomeAction](https://github.com/vladmeh/javaRushTestTask/blob/a9ec5dfab0c1c38431754aa40ba9b4562e6c35a7/src/main/java/com/vladmeh/javaRushTestTask/Controller/HomeAction.java);
 * Первое тестирование
-    * [ApplicationTest](https://github.com/vladmeh/javaRushTestTask/blob/07d4d78265f902c29d89e1a5b40f53230ac8cc39/src/test/java/com/vladmeh/javaRushTestTask/ApplicationTest.java) - проверяет что контекст создает нашконтроллер, а так же обрабатывает наш входящий HTTP запрос правильно (без затрат на запуск сервера) 
+    * [ApplicationTest](https://github.com/vladmeh/javaRushTestTask/blob/07d4d78265f902c29d89e1a5b40f53230ac8cc39/src/test/java/com/vladmeh/javaRushTestTask/ApplicationTest.java) - проверяет что контекст создает наш контроллер, а так же обрабатывает наш входящий HTTP запрос правильно (без затрат на запуск сервера) 
     * [HttpRequestTest](https://github.com/vladmeh/javaRushTestTask/blob/07d4d78265f902c29d89e1a5b40f53230ac8cc39/src/test/java/com/vladmeh/javaRushTestTask/HttpRequestTest.java) - обрабатывает наш входящий HTTP запрос
     
     
->Подробнее о тестирвоание Spring boot [здесь](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html) и [здесь](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#integration-testing-support-jdbc)
+>Подробнее о тестировании Spring boot [здесь](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html) и [здесь](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#integration-testing-support-jdbc)
 
 * Запускаем JavaRushTestTaskApplication в IDEA
     *   в браузере http://localhost:8080 будет выведено "Hello World";
@@ -108,7 +108,7 @@
 * Сразу же создаем [скрипт sql](https://github.com/vladmeh/javaRushTestTask/blob/2c7eae388eb36dceecb1ea6cdde6cb87db4ce71d/src/main/resources/database.sql) где пишем создание базы, таблицы, полей.
 * Создаем модель данных [Entity.Book](https://github.com/vladmeh/javaRushTestTask/blob/fa277c2f0d5697878cb013e5a888d775bde06e92/src/main/java/com/vladmeh/javaRushTestTask/Entity/Book.java)
 * Создаем интерфейс репозитария [Repository.BookRepository](https://github.com/vladmeh/javaRushTestTask/blob/fa277c2f0d5697878cb013e5a888d775bde06e92/src/main/java/com/vladmeh/javaRushTestTask/Repository/BookRepository.java) который пока наследуется от CrudRepository
-* Сoздаем контроллер [Controller.BookController](https://github.com/vladmeh/javaRushTestTask/blob/fa277c2f0d5697878cb013e5a888d775bde06e92/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) с одним методом getAllBook который будет возвращать полный список наших книг
+* Сoздаем контроллер [Controller.BookController](https://github.com/vladmeh/javaRushTestTask/blob/fa277c2f0d5697878cb013e5a888d775bde06e92/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) с одним методом `getAllBook()` который будет возвращать полный список наших книг
 
 >Подробнее о создании Spring Data JPA читаем [здесь](https://www.petrikainulainen.net/spring-data-jpa-tutorial)
 
@@ -120,14 +120,14 @@
 * Создаем интерфейс [Service.BookService](https://github.com/vladmeh/javaRushTestTask/blob/755320b2d6eff2f8023453e9659a238f290d574e/src/main/java/com/vladmeh/javaRushTestTask/Service/BookService.java)
 * Создаем класс реализации интерфейса BookService [Service.BookServiceImpl](https://github.com/vladmeh/javaRushTestTask/blob/755320b2d6eff2f8023453e9659a238f290d574e/src/main/java/com/vladmeh/javaRushTestTask/Service/BookServiceImpl.java) 
 * Обновляем контроллер [Controller.BookController](https://github.com/vladmeh/javaRushTestTask/blob/755320b2d6eff2f8023453e9659a238f290d574e/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java)
-    * контроллер теперь реализует свои методы через нашу сервисную службу BookService
+    * контроллер теперь реализует свои методы через нашу сервисную службу [BookService](https://github.com/vladmeh/javaRushTestTask/blob/755320b2d6eff2f8023453e9659a238f290d574e/src/main/java/com/vladmeh/javaRushTestTask/Service/BookService.java)
     * добавляем методы 
         * `findBookById` -  поиск конкретной книги по id
         * `create` - создание новой книги
         * `update` - обновление существующей книги
         * `delete` - удаление существующей книги
 * Тестируем
-    * Модульное тестирование контроллера с помощью unit теста [BookController.test](https://github.com/vladmeh/javaRushTestTask/blob/755320b2d6eff2f8023453e9659a238f290d574e/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java)
+    * Модульное тестирование контроллера с помощью unit теста [BookControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/755320b2d6eff2f8023453e9659a238f290d574e/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java)
     * Работоспособность я тестировал с помощью сервиса [Postman Echo](https://www.getpostman.com/), с помощью которого посылаем запрос на наш сервер например добавим запись:
     ```cfml
     POST /books HTTP/1.1
@@ -223,9 +223,7 @@
 
 ### 10. Создание первого представления
 
-Для реализации визуального представления нашего приложения я использовал
-* [Thymeleaf](http://www.thymeleaf.org/) - шаблонизатор HTML
-* Фреймворк [Bootstrap v.3](https://getbootstrap.com/docs/3.3/)
+Для реализации визуального представления нашего приложения я использовал [Thymeleaf](http://www.thymeleaf.org/) - шаблонизатор HTML и фреймворк [Bootstrap v.3](https://getbootstrap.com/docs/3.3/)
 
 * Добавляем в [pom.xml](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/pom.xml) зависимости Maven для представления
     * ```xml
