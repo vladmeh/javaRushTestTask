@@ -6,23 +6,22 @@
 <head>
     <title>Title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
 </head>
 <body>
     <div class="container">
-        <h1 layout:fragment="pageHead">
+        <h1 class="display-4" layout:fragment="pageHead">
             Page head
         </h1>
         <div class="row">
-            <div class="col-md-12" layout:fragment="content">
+            <div class="col" layout:fragment="content">
                 Page content goes here
             </div>
         </div>
     </div>
 
-    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
-    <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
     <th:block layout:fragment="scripts"></th:block>
 </body>
 </html>

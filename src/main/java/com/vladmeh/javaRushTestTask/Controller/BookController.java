@@ -12,6 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 @Controller
 @RequestMapping(path = "/books")
 public class BookController {
@@ -34,7 +39,8 @@ public class BookController {
         PageRequest pageRequest = new PageRequest(pageNumber, 10, sort);
         Page<Book> books = bookService.findAllByPage(pageRequest);
 
-        uiModel.addAttribute("books", books.getContent());
+        uiModel.addAttribute("books", books);
+        uiModel.addAttribute("current", pageNumber);
 
         return "books/list";
     }
