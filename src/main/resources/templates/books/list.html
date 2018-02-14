@@ -6,36 +6,26 @@
       layout:decorator="default">
 <head>
     <title>List Book</title>
+    <link layout:fragment="pageStyleLink" rel="stylesheet" th:href="@{'/css/list.css'}" />
 </head>
 <body>
 <h1 layout:fragment="pageHead">Книжная полка</h1>
 <div layout:fragment="content">
-    <nav>
-        <ul class="pagination justify-content-end">
-            <li class="page-item" th:classappend="${books.hasPrevious()?'':'disabled'}">
-                <a class="page-link" th:href="@{/books}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(1, books.getTotalPages())}" th:classappend="${(i == books.getNumber()+1)?'active':''}">
-                <a class="page-link" th:href="@{/books(page=${i})}" th:text="${i}"></a>
-            </li>
-            <li class="page-item" th:classappend="${books.hasNext()?'':'disabled'}">
-                <a class="page-link" th:href="@{/books(page=${books.getTotalPages()})}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-
+    <div th:replace="fragments/pagination :: pagination(${books})"></div>
     <div class="card-columns">
+        <!--/*@thymesVar id="book" type="com.vladmeh.javaRushTestTask.Entity.Book"*/-->
         <div class="card" th:each="book : ${books.getContent()}">
+            <div th:replace="fragments/lenta :: ${book.readAlready} ? 'lenta' : 'free'"></div>
+            <div class="card-img-crop border-bottom">
+                <img class="card-img-top" th:src="@{'/images/' + ${book.imageStr}}" th:alt="${book.title}" />
+            </div>
             <div class="card-body">
                 <h5 class="card-title" th:text="${book.title}"></h5>
-                <p class="card-text" th:text="${book.autor} + ', ' + ${book.printYear} + ' г.'"></p>
+                <p class="card-text" th:text="${book.autor}"></p>
             </div>
             <div class="card-footer">
-                <small class="text-muted" th:text="${book.isbn}"></small>
+                <small class="text-muted" th:text="${book.printYear} + ' г.'"></small>
+                <a th:href="@{/books/api/{id}(id = ${book.id})}" class="card-link float-right">посмотреть...</a>
             </div>
         </div>
     </div>

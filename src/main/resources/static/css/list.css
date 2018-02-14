@@ -1,0 +1,118 @@
+.card-img-crop {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 200px;
+    text-align: center;
+}
+.card-img-crop > img {
+    width: auto;
+    border-radius: 0;
+    max-width: 100%;
+}
+
+/*угловые ленты*/
+.lenta {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #00B847;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.00)), to(rgba(0, 0, 0, 0.15)));
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.15));
+    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.15));
+    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.15));
+    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.15));
+    background-image: linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.15));
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#000000', EndColorStr='#000000');
+    -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.lenta span,
+.lenta a,
+.lenta a:hover {
+    color: white;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0,0,0,0.5);
+    text-align: center;
+    width: 200px;
+    line-height: 1.2;
+    display: inline-block;
+    padding: 2px 0 4px 0;
+    border-width: 1px 0;
+    border-style: dotted;
+    border-color: rgba(255,255,255,0.7);
+}
+
+.lenta-box {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    z-index: 9999;
+}
+
+.lenta-box.fixed {
+    position: fixed;
+}
+
+.lenta-box.left {
+    left: 0;
+}
+
+.lenta-box.right {
+    right: 0;
+}
+
+.lenta-box.left-bottom {
+    position: fixed;
+    top: inherit;
+    bottom: 0;
+    left: 0;
+}
+
+.lenta-box.right-bottom {
+    position: fixed;
+    top: inherit;
+    bottom: 0;
+    right: 0;
+}
+
+.lenta-box.right .lenta {
+    top: 42px;
+    right: -43px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.lenta-box.left .lenta {
+    top: 42px;
+    left: -43px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+
+.lenta-box.left-bottom .lenta {
+    top: 80px;
+    left: -43px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.lenta-box.right-bottom .lenta {
+    top: 80px;
+    right: -43px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+/*угловые ленты*/

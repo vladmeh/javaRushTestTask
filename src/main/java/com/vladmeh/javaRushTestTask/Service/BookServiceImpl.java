@@ -56,6 +56,7 @@ public class BookServiceImpl implements BookService {
         if (book.getDescription() != null) entity.setDescription(book.getDescription());
         if (book.getIsbn() != null) entity.setIsbn(book.getIsbn());
         if (book.getPrintYear() != 0) entity.setPrintYear(book.getPrintYear());
+        if (book.getImageStr() != null) entity.setImageStr(book.getImageStr());
         entity.setReadAlready(book.isReadAlready());
 
         return bookRepository.save(entity);

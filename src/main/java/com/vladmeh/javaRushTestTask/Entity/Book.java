@@ -23,6 +23,8 @@ public class Book {
 
     private boolean readAlready;
 
+    private String imageStr;
+
     public long getId() {
         return id;
     }
@@ -77,5 +79,13 @@ public class Book {
 
     public void setReadAlready(boolean readAlready) {
         this.readAlready = readAlready;
+    }
+
+    public String getImageStr() {
+        return imageStr;
+    }
+
+    public void setImageStr(String imageStr) {
+        this.imageStr = imageStr;
     }
 }

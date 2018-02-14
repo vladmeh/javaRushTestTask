@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<!--/*@thymesVar id="pages" type="org.springframework.data.domain.Page<Book>"*/-->
+<nav th:fragment="pagination (pages)">
+    <ul class="pagination justify-content-end">
+        <li class="page-item" th:classappend="${pages.hasPrevious()?'':'disabled'}">
+            <a class="page-link" th:href="@{/books}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item" th:each="i : ${#numbers.sequence(1, pages.getTotalPages())}" th:classappend="${(i == pages.getNumber()+1)?'active':''}">
+            <a class="page-link" th:href="@{/books(page=${i})}" th:text="${i}"></a>
+        </li>
+        <li class="page-item" th:classappend="${pages.hasNext()?'':'disabled'}">
+            <a class="page-link" th:href="@{/books(page=${pages.getTotalPages()})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<div th:fragment="free"></div>
+</body>
+</html>
