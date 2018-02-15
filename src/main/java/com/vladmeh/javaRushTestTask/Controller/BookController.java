@@ -23,6 +23,9 @@ public class BookController {
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "id") String sortBy,
             @RequestParam(required = false, defaultValue = "ask") String order,
+            @RequestParam(required = false, defaultValue = "") String term, // запрос на поиск
+            @RequestParam(required = false, defaultValue = "0") int afterYear, // минимальный год выхода книги в печать
+            @RequestParam(required = false, defaultValue = "") String ready,
             Model uiModel
     ){
         Sort sort;
@@ -31,8 +34,14 @@ public class BookController {
 
         //Нумерация страниц для Spring Data JPA начинается с 0
         Integer pageNumber = (page > 0) ? page - 1 : 0;
-        PageRequest pageRequest = new PageRequest(pageNumber, 10, sort);
-        Page<Book> books = bookService.findAllByPage(pageRequest);
+        PageRequest pageRequest = new PageRequest(pageNumber, 8, sort);
+
+        Page<Book> books;
+
+        if (!ready.equals("") && (ready.equals("true") || ready.equals("false")))
+            books = bookService.search(term, afterYear, Boolean.parseBoolean(ready), pageRequest);
+        else
+            books = bookService.search(term, afterYear, pageRequest);
 
         uiModel.addAttribute("books", books);
         uiModel.addAttribute("current", pageNumber);

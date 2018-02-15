@@ -9,27 +9,37 @@
     <link layout:fragment="pageStyleLink" rel="stylesheet" th:href="@{'/css/list.css'}" />
 </head>
 <body>
-<h1 layout:fragment="pageHead">Книжная полка</h1>
-<div layout:fragment="content">
-    <div th:replace="fragments/pagination :: pagination(${books})"></div>
-    <div class="card-columns">
-        <!--/*@thymesVar id="book" type="com.vladmeh.javaRushTestTask.Entity.Book"*/-->
-        <div class="card" th:each="book : ${books.getContent()}">
-            <div th:replace="fragments/lenta :: ${book.readAlready} ? 'lenta' : 'free'"></div>
-            <div class="card-img-crop border-bottom">
-                <img class="card-img-top" th:src="@{'/images/' + ${book.imageStr}}" th:alt="${book.title}" />
-            </div>
-            <div class="card-body">
-                <h5 class="card-title" th:text="${book.title}"></h5>
-                <p class="card-text" th:text="${book.autor}"></p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted" th:text="${book.printYear} + ' г.'"></small>
-                <a th:href="@{/books/api/{id}(id = ${book.id})}" class="card-link float-right">посмотреть...</a>
+
+<section class="jumbotron text-center" layout:fragment="pageHead">
+    <div class="container">
+        <h1 class="jumbotron-heading">Книжная полка</h1>
+        <p class="lead text-muted">Проект созданный в рамках тестового задания онлайн курса Java - <a href="https://javarush.ru">JavaRush</a>, для прохождения стажировки.</p>
+        <p>
+            <a href="#" class="btn btn-primary my-2">Main call to action</a>
+            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+        </p>
+    </div>
+</section>
+
+<div layout:fragment="content" class="py-5 bg-light">
+    <div class="container">
+        <th:block th:if="${books.getTotalPages()} > 1">
+            <div th:replace="fragments/pagination :: pagination(${books})"></div>
+        </th:block>
+        <div class="row">
+            <div class="col-md-3" th:each="book : ${books.getContent()}">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-img-crop border-bottom">
+                        <img class="card-img-top" th:src="@{'/images/' + ${book.imageStr}}" th:alt="${book.title}" />
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted" th:text="${book.printYear} + ' г.'"></small>
+                        <a th:href="@{/books/api/{id}(id = ${book.id})}" class="card-link float-right">посмотреть...</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
 
 </body>

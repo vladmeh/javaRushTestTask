@@ -86,12 +86,12 @@ public class BookRestController {
     @GetMapping(path = "/search")
     public @ResponseBody
     Page<Book> search(
-            @RequestParam(required = false, defaultValue = "1") Integer page,
-            @RequestParam(required = false, defaultValue = "id") String sortBy,
-            @RequestParam(required = false, defaultValue = "ask") String order,
-            @RequestParam(required = false, defaultValue = "") String term,
-            @RequestParam(required = false, defaultValue = "0") int afterYear,
-            @RequestParam(required = false, defaultValue = "") String ready
+            @RequestParam(required = false, defaultValue = "1") Integer page, //начальная страница, по умлчанию 1
+            @RequestParam(required = false, defaultValue = "id") String sortBy, //поле сортировки списка, по умолчанию id
+            @RequestParam(required = false, defaultValue = "ask") String order, // направление сортовки, по умолчанию - по возрастанию
+            @RequestParam(required = false, defaultValue = "") String term, // запрос на поиск
+            @RequestParam(required = false, defaultValue = "0") int afterYear, // минимальный год выхода книги в печать
+            @RequestParam(required = false, defaultValue = "") String ready // прочитана или нет
     ){
         Sort sort;
         if (order.equals("desc")) sort = new Sort(Sort.Direction.DESC, sortBy);

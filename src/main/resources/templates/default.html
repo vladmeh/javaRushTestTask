@@ -7,21 +7,52 @@
     <title>Title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{'/css/main.css'}"/>
     <link layout:fragment="pageStyleLink"/>
     <style layout:fragment="pageStyle"></style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="display-4" layout:fragment="pageHead">
-            Page head
-        </h1>
-        <div class="row">
-            <div class="col" layout:fragment="content">
-                Page content goes here
+    <header>
+        <div class="bg-dark collapse" id="navbarHeader">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-md-7 py-4">
+                        <h4 class="text-white">About</h4>
+                        <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+                    </div>
+                    <div class="col-sm-4 offset-md-1 py-4">
+                        <h4 class="text-white">Contact</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-white">Follow on Twitter</a></li>
+                            <li><a href="#" class="text-white">Like on Facebook</a></li>
+                            <li><a href="#" class="text-white">Email me</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
+        <nav class="navbar navbar-expand navbar-light bg-white border-bottom box-shadow">
+            <button class="btn btn-link navbar-brand collapsed" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <svg class="navbar-nav-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" version="1.1" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7z"></path>
+                </svg>
+            </button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" th:href="@{'/books'}">Список книг</a>
+                    <a class="nav-item nav-link" href="#">Новая книга</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main role="main">
+        <th:block layout:fragment="pageHead"></th:block>
+        <th:block layout:fragment="content"></th:block>
+    </main>
+    <footer layout:fragment="footer" class="text-muted"></footer>
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
     <th:block layout:fragment="scripts"></th:block>
