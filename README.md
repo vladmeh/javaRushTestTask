@@ -223,7 +223,7 @@
 
 ### 10. Создание первого представления
 
-Для реализации визуального представления нашего приложения я использовал [Thymeleaf](http://www.thymeleaf.org/) - шаблонизатор HTML и фреймворк [Bootstrap v.3](https://getbootstrap.com/docs/3.3/)
+Для реализации визуального представления нашего приложения я использовал [Thymeleaf](http://www.thymeleaf.org/) - шаблонизатор HTML и фреймворк [Bootstrap v.4.0.0](https://getbootstrap.com)
 
 * Добавляем в [pom.xml](https://github.com/vladmeh/javaRushTestTask/blob/2e84387722e761060440bcdf7a4b42d3d0792dc3/pom.xml) зависимости Maven для представления
     * ```xml
@@ -236,7 +236,13 @@
             <dependency>
                 <groupId>org.webjars</groupId>
                 <artifactId>bootstrap</artifactId>
-                <version>3.3.7-1</version>
+                <version>4.0.0</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery</artifactId>
+                <version>3.3.1</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.webjars/webjars-locator -->
             <dependency>
@@ -280,4 +286,22 @@
           
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/2e84387722e761060440bcdf7a4b42d3d0792dc3)
 
+### 12. Дорабатываем представление для списка книг
+
+* Изучаем [Thymeleaf v.2.1](http://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html), т.к. эта версия предложена в Spring boot на данный момент.
+* Изучаем [Bootstrap v.4.0.0](https://getbootstrap.com/docs/4.0/getting-started/introduction)
+* Вместо таблицы, вывод наших книг оформляем в виде карточек.
+* К каждой книге мы добавим обложки (изображения)
+    *   В таблицу `book` добавляем новое поле
+        ```bash
+        mysql> ALTER TABLE book ADD image_str varchar(255) NULL;
+        ```
+        поле строкового типа, т.к. на данном этапе в базе данных мы будем хранить имена файлов изображений.
+    *   В сущность [Entity.Book](https://github.com/vladmeh/javaRushTestTask/blob/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca/src/main/java/com/vladmeh/javaRushTestTask/Entity/Book.java) добавляем приватное поле строкового типа `private String imageStr`, создаем для него геттер и сеттер.
+    *   В базу данных для каждой книги добаляем имена файлов изображений, сейчас это делаем вручную. Далее, когда мы будем делать представления для добавления и редактирования книги, то реализуем загрузку файлов изображений через форму. 
+ * Оформляем и добавляем к шаблону списка [book/list.html](https://github.com/vladmeh/javaRushTestTask/blob/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca/src/main/resources/templates/books/list.html) пагинатор [fragments/pagination.html](https://github.com/vladmeh/javaRushTestTask/blob/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca/src/main/resources/templates/fragments/pagination.html).
+ * Выделяем прочитанные книги.
+ 
+ [Итог](https://github.com/vladmeh/javaRushTestTask/tree/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca)
+ 
 
