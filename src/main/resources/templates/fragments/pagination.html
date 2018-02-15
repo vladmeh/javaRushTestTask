@@ -5,8 +5,8 @@
 
 <body>
 <!--/*@thymesVar id="pages" type="org.springframework.data.domain.Page<Book>"*/-->
-<nav class="d-flex justify-content-end" th:fragment="pagination (pages)">
-    <ul class="pagination justify-content-end">
+<nav th:fragment="pagination (pages)">
+    <ul class="pagination my-0">
         <li class="page-item" th:classappend="${pages.hasPrevious()?'':'disabled'}">
             <a class="page-link" th:href="@{/books}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>

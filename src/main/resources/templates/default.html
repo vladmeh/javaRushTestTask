@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <nav class="navbar navbar-expand navbar-light bg-white border-bottom box-shadow">
+        <nav class="navbar navbar-expand fixed-top navbar-light bg-white border-bottom box-shadow">
             <button class="btn btn-link navbar-brand collapsed" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
                 <svg class="navbar-nav-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" version="1.1" aria-hidden="true">
                     <path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7z"></path>
@@ -41,10 +41,22 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link active" th:href="@{'/books'}">Список книг</a>
-                    <a class="nav-item nav-link" href="#">Новая книга</a>
-                </div>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-item nav-link active" th:href="@{'/books'}">Список книг</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link" href="#">Новая книга</a>
+                    </li>
+                </ul>
+                <form id="data" class="form-inline my-2 my-lg-0">
+                    <input class="form-control" type="search" name="term" placeholder="Search" aria-label="Search"/>
+                    <button class="btn btn-link my-2 my-sm-0" type="submit">
+                        <svg class="navbar-nav-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path>
+                        </svg>
+                    </button>
+                </form>
             </div>
         </nav>
     </header>
