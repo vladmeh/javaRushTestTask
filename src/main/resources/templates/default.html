@@ -49,7 +49,10 @@
                         <a class="nav-item nav-link" href="#">Новая книга</a>
                     </li>
                 </ul>
-                <th:block layout:fragment="searchForm"></th:block>
+                <th:block layout:fragment="actionBook"></th:block>
+                <th:block layout:fragment="searchForm">
+                    <form th:replace="fragments/filters :: search('')"></form>
+                </th:block>
             </div>
         </nav>
     </header>
@@ -58,6 +61,7 @@
         <th:block layout:fragment="content"></th:block>
     </main>
     <footer layout:fragment="footer" class="text-muted"></footer>
+    <th:block layout:fragment="modal"></th:block>
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
     <th:block layout:fragment="scripts"></th:block>

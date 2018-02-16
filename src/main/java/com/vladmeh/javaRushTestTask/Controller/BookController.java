@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -50,5 +52,14 @@ public class BookController {
         uiModel.addAttribute("ready", ready);
 
         return "books/list";
+    }
+
+    @GetMapping(path = "/{id}")
+    public String viewBook (@PathVariable Long id, Model uiModel){
+        Book book = bookService.findById(id);
+
+        uiModel.addAttribute("book", book);
+
+        return "books/view";
     }
 }

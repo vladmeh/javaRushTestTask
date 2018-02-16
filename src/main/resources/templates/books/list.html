@@ -44,7 +44,7 @@
         <div class="row">
             <div class="col-md-3" th:each="book : ${books.getContent()}">
                 <div class="card mb-4 box-shadow-hover z-depth-1">
-                    <a th:href="@{/books/api/{id}(id = ${book.id})}">
+                    <a th:href="@{/books/{id}(id = ${book.id})}">
                         <div class="card-img-crop">
                             <img class="card-img-top" th:src="@{'/images/' + ${book.imageStr}}" th:alt="${book.title}" />
                         </div>
