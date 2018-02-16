@@ -45,6 +45,9 @@ public class BookController {
 
         uiModel.addAttribute("books", books);
         uiModel.addAttribute("current", pageNumber);
+        uiModel.addAttribute("term", term);
+        uiModel.addAttribute("year", afterYear);
+        uiModel.addAttribute("ready", ready);
 
         return "books/list";
     }

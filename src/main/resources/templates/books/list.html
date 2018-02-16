@@ -21,14 +21,18 @@
     </div>
 </section>
 
+<th:block layout:fragment="searchForm">
+    <form th:replace="fragments/filters :: search(${term})"></form>
+</th:block>
+
 <div layout:fragment="content" class="py-5 bg-light">
     <div class="container">
         <div class="d-flex flex-column flex-md-row align-items-center mb-3">
-            <div class="mr-auto col-3">
+            <div class="mr-auto">
                 <div class="form-row">
-                    <label for="afterYear" class="col-7 col-form-label">год издания после:</label>
-                    <div class="col-5">
-                        <input form="data" class="form-control" type="search" name="afterYear" id="afterYear" placeholder="год..." aria-label="Search"/>
+                    <div class="form-inline">
+                        <div th:replace="fragments/filters :: ready(${ready})"></div>
+                        <div th:replace="fragments/filters :: afterYear(${year})"></div>
                     </div>
                 </div>
             </div>
@@ -44,8 +48,14 @@
                         <div class="card-img-crop">
                             <img class="card-img-top" th:src="@{'/images/' + ${book.imageStr}}" th:alt="${book.title}" />
                         </div>
-                        <div class="card-footer">
-                            <small class="text-muted" th:text="${book.printYear} + ' г.'"></small>
+                        <div class="card-footer d-flex justify-content-between">
+                            <span class="text-muted" th:text="${book.printYear} + ' г.'"></span>
+                            <span class="text-success" th:if="${book.readAlready}">
+                                <svg class="navbar-nav-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" version="1.1" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"></path>
+                                </svg>
+                                Прочитано
+                            </span>
                         </div>
                     </a>
                 </div>

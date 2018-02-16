@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="search (term)">
+    <form id="data" class="form-inline my-2 my-lg-0" th:action="@{'/books'}">
+        <input th:value="${term} ? ${term} : ''" class="form-control" type="search" name="term" placeholder="поиск..." aria-label="Search"/>
+        <button class="btn btn-link my-2 my-sm-0" type="submit">
+            <svg class="navbar-nav-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" aria-hidden="true">
+                <path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path>
+            </svg>
+        </button>
+    </form>
+</div>
+
+<div th:fragment="afterYear (year)" class="form-group mr-3">
+    <label for="afterYear" class="col-form-label mr-2">изданные после:</label>
+    <div class="input-group">
+        <input th:value="${year} ? ${year} : ''" form="data" class="form-control col-4" type="search" name="afterYear" id="afterYear" placeholder="год..." aria-label="Search"/>
+        <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary" type="submit" form="data">
+                Применить
+            </button>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="ready (ready)" class="form-group mr-3">
+    <label for="ready" class="col-form-label mr-2">Показать:</label>
+    <select id="ready" name="ready" form="data" class="form-control">
+        <option value="" th:attr="selected = ${ready == ''} ? 'selected' : null">все...</option>
+        <option value="true" th:attr="selected = ${ready == 'true'} ? 'selected' : null">прочитанные</option>
+        <option value="false" th:attr="selected = ${ready == 'false'} ? 'selected' : null">не прочитанные</option>
+    </select>
+</div>
+
+<div th:fragment="free"></div>
+</body>
+</html>
