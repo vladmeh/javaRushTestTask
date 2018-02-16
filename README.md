@@ -304,4 +304,11 @@
  
  [Итог](https://github.com/vladmeh/javaRushTestTask/tree/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca)
  
+ * Устанавливаем и настраиваем фильтры
+    * форму поиска
+    * фильтр прочитанных и не прочитанных книг
+    * фильтр по году издания
+ 
+ [Итог](https://github.com/vladmeh/javaRushTestTask/tree/12f9501926b65a0df9473b18c1c7f85c631f09bc)
+ 
 
