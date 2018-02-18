@@ -24,32 +24,17 @@
     </th:block>
 
     <th:block layout:fragment="modal">
-        <div class="modal fade" id="deleteBook" tabindex="-1" role="dialog" aria-labelledby="deleteBookTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteBookLongTitle">Удалить книгу</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Вы действительно хотите удалить книгу "<th:block th:text="${book.getTitle()}"></th:block>"!
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        <button type="button" class="btn btn-danger">Да</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div th:replace="fragments/modals :: delete(${book})"></div>
+        <th:block th:if="${!book.isReadAlready()}">
+            <div th:replace="fragments/modals :: ready(${book})"></div>
+        </th:block>
     </th:block>
 
     <div layout:fragment="content" class="py-5">
         <div class="container">
             <div class="row">
                 <div class="col-4">
-                    <img th:src="@{'/images/' + ${book.getImageStr()}}" alt="..." class="img-thumbnail"/>
+                    <img th:src="@{'/images/' + ${book.getImageStr()}}" th:alt="${book.getTitle()}" class="img-thumbnail"/>
                 </div>
                 <div class="col-8">
                     <h3 th:text="${book.getTitle()}" class="page-header h3"></h3>
@@ -70,7 +55,7 @@
                     </dl>
                     <hr/>
                     <div class="d-flex justify-content-between align-items-center">
-                        <button th:if="${!book.isReadAlready()}" type="button" class="btn btn-outline-success">Отметить как прочитаное</button>
+                        <button th:if="${!book.isReadAlready()}" type="button" class="btn btn-outline-success"  data-toggle="modal" data-target="#isReadyBook">Отметить как прочитаное</button>
                         <button type="button" class="btn btn-outline-info">Заменить на новое издание</button>
                     </div>
                 </div>

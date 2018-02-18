@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <!--/*@thymesVar id="book" type="com.vladmeh.javaRushTestTask.Entity.Book"*/-->
+    <div th:fragment="delete(book)" class="modal fade" id="deleteBook" tabindex="-1" role="dialog" aria-labelledby="deleteBookTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteBookLongTitle">Удалить книгу</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Вы действительно хотите удалить книгу "<th:block th:text="${book.getTitle()}"></th:block>"!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" form="delete" class="btn btn-danger" name="deleteBook">Да</button>
+                    <form th:action="@{/books/delete/{id}(id = ${book.id})}" method="post" id="delete"></form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:fragment="ready(book)" class="modal fade" id="isReadyBook" tabindex="-1" role="dialog" aria-labelledby="isReadyTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="isReadyBookLongTitle">Отметить как прочитанное</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Вы действительно прочитали книгу "<th:block th:text="${book.getTitle()}"></th:block>"!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" form="isReady" class="btn btn-success" name="isReadyBook">Да</button>
+                    <form th:action="@{/books/ready/{id}(id = ${book.id})}" method="post" id="isReady"></form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="free"></div>
+</body>
+
+</html>
