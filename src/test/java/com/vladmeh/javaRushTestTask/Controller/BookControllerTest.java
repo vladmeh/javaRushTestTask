@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.nio.charset.Charset;
 
 import static org.hamcrest.Matchers.*;
@@ -39,6 +41,9 @@ public class BookControllerTest {
 
     private MockMvc mockMvc;
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Autowired
     private WebApplicationContext webApplicationContext;
 
@@ -52,7 +57,7 @@ public class BookControllerTest {
         this.mockMvc.perform(get("/books"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(this.contentType))
-                .andExpect(content().string(containsString("список книг")));
+                .andExpect(content().string(containsString("Книжная полка")));
     }
 
     @Test
@@ -64,4 +69,34 @@ public class BookControllerTest {
         )
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void viewBook_shouldReturnHttpResponseStatusIsOKAndTitle() throws Exception{
+        mockMvc.perform(get("/books/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(content().string(containsString("Spring 4 для профессионалов")));
+    }
+
+    @Test
+    public void deleteBook_shouldReturnHttpResponseStatusIsRedirection() throws Exception{
+
+        mockMvc.perform(post("/books/delete/{id}", TEST_BOOK_ID))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/books"));
+
+        em.flush();
+    }
+
+    @Test
+    public void isReadyBook_shouldReturnHttpResponseStatusIsRedirection() throws Exception{
+
+        mockMvc.perform(post("/books/ready/{id}", TEST_BOOK_ID))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/books/" + TEST_BOOK_ID));
+
+        em.flush();
+    }
+
+
 }
