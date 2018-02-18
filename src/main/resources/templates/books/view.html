@@ -44,7 +44,7 @@
                         <dt class="col-sm-3">Авторы</dt>
                         <dd class="col-sm-9" th:text="${book.getAutor()}"></dd>
 
-                        <dt class="col-sm-3">Год выпуска</dt>
+                        <dt class="col-sm-3">Год издания</dt>
                         <dd class="col-sm-9" th:text="${book.getPrintYear()} + ' г.'"></dd>
 
                         <dt class="col-sm-3">ISBN</dt>
@@ -56,7 +56,7 @@
                     <hr/>
                     <div class="d-flex justify-content-between align-items-center">
                         <button th:if="${!book.isReadAlready()}" type="button" class="btn btn-outline-success"  data-toggle="modal" data-target="#isReadyBook">Отметить как прочитаное</button>
-                        <button type="button" class="btn btn-outline-info">Заменить на новое издание</button>
+                        <a th:href="@{/books/edition/{id}(id = ${book.id})}" class="btn btn-outline-info">Заменить на новое издание</a>
                     </div>
                 </div>
             </div>

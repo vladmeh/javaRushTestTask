@@ -12,9 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @Controller
 @RequestMapping(path = "/books")
 public class BookController {
+    private static final String UPLOAD_DIR = "/static/image/";
+
     @Autowired
     private BookService bookService;
 
@@ -77,6 +82,24 @@ public class BookController {
 
         redirectAttributes.addAttribute("id", id);
 
+        return "redirect:/books/{id}";
+    }
+
+    @GetMapping(path = "/edition/{id}")
+    public String newEditionBook(@PathVariable Long id, Model uiModel){
+        Book book = bookService.findById(id);
+        uiModel.addAttribute("book", book);
+        return "books/edition";
+    }
+
+    @PostMapping(path = "/edition/{id}")
+    public String editionSubmit(
+            @ModelAttribute Book book,
+            @PathVariable Long id,
+            RedirectAttributes redirectAttributes
+    ){
+        bookService.update(book, id);
+        redirectAttributes.addAttribute("id", id);
         return "redirect:/books/{id}";
     }
 }
