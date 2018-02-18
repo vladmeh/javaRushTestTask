@@ -299,16 +299,61 @@
         поле строкового типа, т.к. на данном этапе в базе данных мы будем хранить имена файлов изображений.
     *   В сущность [Entity.Book](https://github.com/vladmeh/javaRushTestTask/blob/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca/src/main/java/com/vladmeh/javaRushTestTask/Entity/Book.java) добавляем приватное поле строкового типа `private String imageStr`, создаем для него геттер и сеттер.
     *   В базу данных для каждой книги добаляем имена файлов изображений, сейчас это делаем вручную. Далее, когда мы будем делать представления для добавления и редактирования книги, то реализуем загрузку файлов изображений через форму. 
- * Оформляем и добавляем к шаблону списка [book/list.html](https://github.com/vladmeh/javaRushTestTask/blob/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca/src/main/resources/templates/books/list.html) пагинатор [fragments/pagination.html](https://github.com/vladmeh/javaRushTestTask/blob/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca/src/main/resources/templates/fragments/pagination.html).
- * Выделяем прочитанные книги.
+* Оформляем и добавляем к шаблону списка [book/list.html](https://github.com/vladmeh/javaRushTestTask/blob/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca/src/main/resources/templates/books/list.html) пагинатор [fragments/pagination.html](https://github.com/vladmeh/javaRushTestTask/blob/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca/src/main/resources/templates/fragments/pagination.html).
+* Выделяем прочитанные книги.
  
- [Итог](https://github.com/vladmeh/javaRushTestTask/tree/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca)
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/6e4e621a213b0596bb10fd35b06acf3fb4fa36ca)
  
- * Устанавливаем и настраиваем фильтры
-    * форму поиска
-    * фильтр прочитанных и не прочитанных книг
-    * фильтр по году издания
+* Устанавливаем и настраиваем фильтры
+   * форму поиска
+   * фильтр прочитанных и не прочитанных книг
+   * фильтр по году издания
  
- [Итог](https://github.com/vladmeh/javaRushTestTask/tree/12f9501926b65a0df9473b18c1c7f85c631f09bc)
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/12f9501926b65a0df9473b18c1c7f85c631f09bc)
  
+### 13.Представление отображения книги.
+ 
+*   В контроллере [BookController](https://github.com/vladmeh/javaRushTestTask/blob/4e407d0ee6ad0b828e9cda2d3efa1eab22b24bf0/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) пишем метод `viewBook(Long id)`
+*   Создаем шаблон представления отображения книги [books/view.html](https://github.com/vladmeh/javaRushTestTask/blob/4e407d0ee6ad0b828e9cda2d3efa1eab22b24bf0/src/main/resources/templates/books/view.html)
+*   В представлении списка книг [books/list.html](https://github.com/vladmeh/javaRushTestTask/blob/4e407d0ee6ad0b828e9cda2d3efa1eab22b24bf0/src/main/resources/templates/books/list.html) устанавливаем ссылки на отображение книг `<a th:href="@{/books/{id}(id = ${book.id})}">`
+    * теперь по клику на нашу карточку книги в списке, будет открываться книга.
+*   В представлении [books/view.html](https://github.com/vladmeh/javaRushTestTask/blob/4e407d0ee6ad0b828e9cda2d3efa1eab22b24bf0/src/main/resources/templates/books/view.html) создаем кнопки и ссылки для действий над нашей книгой
+    * прочтение книги
+    * новое издание книги
+    * удаление
+    * редактирование - полное редактирование нам подабиться для того что-бы исправлять ошибки.
+    
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/4e407d0ee6ad0b828e9cda2d3efa1eab22b24bf0)
+    
+### 14.Реализуем действия с книгой
+#### Удаление
+*   В контроллере [BookController](https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) пишем метод `deleteBook(Long id)`
+    *   метод, по переданному параматру id, через сервис `bookService` находит книгу, удаляет ее и делает редирект на страницу со списком книг.
+*   Действие на удаление мы реализуем через модальное окно, которое будет требовать подверждение на удаление и через метод `POST` передавать параметр в наш контроллер.
+    *   для этого создаем шаблоны модальных окон [fragments/modals.html]((https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/resources/templates/fragments/modals.html)), где пишем "фрагмент" модального окна на удаление книги.
+    *   подключаем "фрагмент" к основному шаблону представления отображения книги [books/view.html](https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/resources/templates/books/view.html)
+    
+#### Отметить книгу как прочитанную
+*   В контроллере [BookController](https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) пишем метод `isReadyBook(Long id)`
+    *   метод, по переданному параматру id, через сервис `bookService` находит книгу, устанавливает поле `read_alreary` в `true`, сохраняет сделанные изменения и делает редирект на страницу книги.
+*   Действие в представлении, как и удаление мы реализуем через модальное окно, которое будет требовать подверждение на прочтение и через метод `POST` передавать параметр в наш контроллер.
+    *   для этого в шаблоне модальных окон [fragments/modals.html]((https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/resources/templates/fragments/modals.html)), пишем "фрагмент" модального окна на прочтение книги.
+    *   подключаем "фрагмент" к основному шаблону представления отображения книги [books/view.html](https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/resources/templates/books/view.html)
+    
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/c529f0d44141f45b5d0b99aa44d2bda612f9c582)
+    
+#### Тесты
+Совсем забыли про тесты, у нас еще не протестированы методы `viewBook(Long id), deleteBook(Long id), isReadyBook(Long id)` контроллера [BookController](https://github.com/vladmeh/javaRushTestTask/blob/b82e66434594033b1294eca35194b7d5eae7cc1d/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java)
 
+*   Пишем интеграционные тесты [BookControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/b82e66434594033b1294eca35194b7d5eae7cc1d/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java)
+    *   Тестируем отображение книги. Тест должен
+        * возвращать ответ сервера со статусом `HTTP 200 OK`
+        * найти в контенте строку с заголовком книги
+    *  Тестируем удаление книги. Тест должен
+        * возвращать ответ сервера со статусом `HTTP 302 OK`
+        * определить что мы делаем редирект на страницу со списком
+    *  Тестируем прочтение книги. Тест должен
+        * возвращать ответ сервера со статусом `HTTP 302 OK`
+        * определить что мы делаем редирект на страницу книги, которую редактировали
+
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/b82e66434594033b1294eca35194b7d5eae7cc1d)
