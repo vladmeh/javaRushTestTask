@@ -330,14 +330,14 @@
 *   В контроллере [BookController](https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) пишем метод `deleteBook(Long id)`
     *   метод, по переданному параматру id, через сервис `bookService` находит книгу, удаляет ее и делает редирект на страницу со списком книг.
 *   Действие на удаление мы реализуем через модальное окно, которое будет требовать подверждение на удаление и через метод `POST` передавать параметр в наш контроллер.
-    *   для этого создаем шаблоны модальных окон [fragments/modals.html]((https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/resources/templates/fragments/modals.html)), где пишем "фрагмент" модального окна на удаление книги.
+    *   для этого создаем шаблоны модальных окон [fragments/modals.html](https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/resources/templates/fragments/modals.html), где пишем "фрагмент" модального окна на удаление книги.
     *   подключаем "фрагмент" к основному шаблону представления отображения книги [books/view.html](https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/resources/templates/books/view.html)
     
 #### Отметить книгу как прочитанную
 *   В контроллере [BookController](https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) пишем метод `isReadyBook(Long id)`
     *   метод, по переданному параматру id, через сервис `bookService` находит книгу, устанавливает поле `read_alreary` в `true`, сохраняет сделанные изменения и делает редирект на страницу книги.
 *   Действие в представлении, как и удаление мы реализуем через модальное окно, которое будет требовать подверждение на прочтение и через метод `POST` передавать параметр в наш контроллер.
-    *   для этого в шаблоне модальных окон [fragments/modals.html]((https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/resources/templates/fragments/modals.html)), пишем "фрагмент" модального окна на прочтение книги.
+    *   для этого в шаблоне модальных окон [fragments/modals.html](https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/resources/templates/fragments/modals.html), пишем "фрагмент" модального окна на прочтение книги.
     *   подключаем "фрагмент" к основному шаблону представления отображения книги [books/view.html](https://github.com/vladmeh/javaRushTestTask/blob/c529f0d44141f45b5d0b99aa44d2bda612f9c582/src/main/resources/templates/books/view.html)
     
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/c529f0d44141f45b5d0b99aa44d2bda612f9c582)
