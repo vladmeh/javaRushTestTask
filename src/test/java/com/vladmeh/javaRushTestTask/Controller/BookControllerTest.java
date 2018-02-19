@@ -98,5 +98,23 @@ public class BookControllerTest {
         em.flush();
     }
 
+    @Test
+    public void newEditionBook_shouldReturnHttpResponseStatusIsOkAndTitle() throws Exception{
+
+        mockMvc.perform(get("/books/edition/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(content().string(containsString("Spring 4 для профессионалов")));
+    }
+
+    @Test
+    public void editionSubmit_shouldReturnHttpResponseStatusIsRedirection() throws Exception{
+
+        mockMvc.perform(post("/books/edition/{id}", TEST_BOOK_ID))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/books/" + TEST_BOOK_ID));
+
+        em.flush();
+    }
 
 }

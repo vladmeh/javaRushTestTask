@@ -15,19 +15,15 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <img th:src="@{'/images/' + ${book.getImageStr()}}" th:alt="${book.getTitle()}" class="img-thumbnail"/>
-                <form method="POST" enctype="multipart/form-data" action="/">
-                    <div class="form-group">
-                        <label for="image">Заменить обложку</label>
-                        <input type="file" class="form-control-file" name="file" id="image"/>
-                    </div>
-                </form>
+                <img th:src="@{'/images/' + ${book.getImageStr()}}" th:alt="${book.getTitle()}" class="img-thumbnail" id="imageBook"/>
+                <button type="button" class="btn btn-outline-primary mt-2" id="imageUpload">Заменить обложку</button>
             </div>
             <div class="col-8">
                 <h3 th:text="${book.getTitle()}" class="page-header h3"></h3>
                 <small th:text="${book.getAutor()}" class="text-muted"></small>
                 <hr/>
                 <form method="post" action="" th:object="${book}">
+                    <input type="file" hidden="hidden" multiple="" accept="image/*" id="imageInput"/>
                     <div class="form-group row">
                         <label for="title" class="col-sm-3 col-form-label">Название</label>
                         <div class="col-sm-9">
@@ -64,5 +60,14 @@
         </div>
     </div>
 </div>
+
+<th:block layout:fragment="scripts">
+    <script th:src="@{'/js/imageLoader.js'}"></script>
+    <script th:inline="javascript">
+        var imageLoader = new ImageLoader('imageUpload', 'imageInput', 'imageBook');
+        imageLoader.init();
+    </script>
+</th:block>
+
 </body>
 </html>
