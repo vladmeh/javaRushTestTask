@@ -10,18 +10,23 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.FileInputStream;
 import java.nio.charset.Charset;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
@@ -151,6 +156,18 @@ public class BookControllerTest {
                 .andExpect(redirectedUrl("/books"));
 
         em.flush();
+    }
+
+    @Test
+    public void uploadTest() throws Exception {
+        String endpoint = "/src/test/resources/upload/";
+        FileInputStream fis = new FileInputStream("D:\\JavaRush\\javaRushTestTask\\data\\1020949847.JPG");
+        MockMultipartFile multipartFile = new MockMultipartFile("file",fis);
+
+        mockMvc.perform(MockMvcRequestBuilders.fileUpload(endpoint).file(multipartFile))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("file"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
 }
