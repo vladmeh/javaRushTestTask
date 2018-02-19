@@ -357,3 +357,14 @@
         * определить что мы делаем редирект на страницу книги, которую редактировали
 
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/b82e66434594033b1294eca35194b7d5eae7cc1d)
+
+#### Замена книги на новое издание
+*    В контроллере [BookController](https://github.com/vladmeh/javaRushTestTask/blob/9631982dfc581b2e715be9b25818f64e6b49596a/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) пишем методы
+    * `newEditionBook` - метод отвечает за вывод формы редактирования книги
+    * `editionSubmit` - метод отвечает за обработку данных полученных из формы рекдактирования и сохранения в базе данных.
+*   Пишем шаблон представления [books/edition.html](https://github.com/vladmeh/javaRushTestTask/blob/9631982dfc581b2e715be9b25818f64e6b49596a/src/main/resources/templates/books/edition.html), который отображает форму редактирования экземпляра книги.
+    * в представлении пишем действие, которое предварительно подгружает новое изображение (обложку) книги, но пока не загружает его на сервер. Загрузку и сохранения изображения мы реализуем позже.
+*   Пишем интеграционные тесты [BookControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/9631982dfc581b2e715be9b25818f64e6b49596a/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java)
+    * Тестируем отображение страницы редактирования книги
+    * Тестируем ответ сервера на обработку данных полученных с формы и редирект на страниццу отображения книги
+    
