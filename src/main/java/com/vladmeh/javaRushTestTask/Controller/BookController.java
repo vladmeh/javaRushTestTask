@@ -2,7 +2,10 @@ package com.vladmeh.javaRushTestTask.Controller;
 
 import com.vladmeh.javaRushTestTask.Entity.Book;
 import com.vladmeh.javaRushTestTask.Service.BookService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -10,15 +13,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @Controller
 @RequestMapping(path = "/books")
 public class BookController {
-    private static final String UPLOAD_DIR = "/static/image/";
+
+    private final Logger logger = LoggerFactory.getLogger(BookRestController.class);
+
+    @Value("src/main/resources/static/images/")
+    private String pathUploadImage;
 
     @Autowired
     private BookService bookService;
@@ -101,5 +113,20 @@ public class BookController {
         bookService.update(book, id);
         redirectAttributes.addAttribute("id", id);
         return "redirect:/books/{id}";
+    }
+
+    @GetMapping(path = "/add")
+    public String addBook(Model uiModel){
+        uiModel.addAttribute("book", new Book());
+        return "books/newBook";
+    }
+
+    @PostMapping(path = "/add")
+    public String addSubmit(
+            @ModelAttribute Book book
+    ){
+        bookService.save(book);
+
+        return "redirect:/books";
     }
 }

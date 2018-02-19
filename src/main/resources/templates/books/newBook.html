@@ -6,7 +6,7 @@
       layout:decorator="default">
 
 <head>
-    <title th:text="${book.getTitle()}"></title>
+    <title th:text="${'Новая книга'}"></title>
 </head>
 
 <body>
@@ -15,19 +15,24 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <img th:src="@{'/images/' + ${book.getImageStr()}}" th:alt="${book.getTitle()}" class="img-thumbnail" id="imageBook"/>
-                <button type="button" class="btn btn-outline-primary mt-2" id="imageUpload">Заменить обложку</button>
+                <img src="holder.js/350x500" class="img-thumbnail" id="imageBook"/>
+                <button type="button" class="btn btn-outline-primary mt-2" id="imageUpload">Загрузить обложку</button>
             </div>
             <div class="col-8">
-                <h3 th:text="${book.getTitle()}" class="page-header h3"></h3>
-                <small th:text="${book.getAutor()}" class="text-muted"></small>
+                <h3 th:text="${'Новая книга'}" class="page-header h3"></h3>
                 <hr/>
-                <form method="post" action="" th:object="${book}">
-                    <input type="file" hidden="hidden" multiple="" accept="image/*" id="imageInput"/>
+                <form method="post" th:object="${book}" enctype="multipart/form-data">
+                    <input type="file" name="file" hidden="hidden" multiple="" accept="image/*" id="imageInput"/>
                     <div class="form-group row">
                         <label for="title" class="col-sm-3 col-form-label">Название</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="title" placeholder="Название" th:value="${book.getTitle()}" th:field="*{title}"/>
+                            <input type="text" class="form-control" id="title" placeholder="Название" th:field="*{title}"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="autor" class="col-sm-3 col-form-label">Авторы</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="autor" placeholder="Авторы" th:field="*{autor}"/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -39,20 +44,20 @@
                     <div class="form-group row">
                         <label for="isbn" class="col-sm-3 col-form-label">ISBN</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="isbn" placeholder="ISBN" th:value="${book.getIsbn()}" th:field="*{isbn}"/>
+                            <input type="text" class="form-control" id="isbn" placeholder="ISBN" th:field="*{isbn}"/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="description" class="col-sm-3 col-form-label">Краткое описание</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" id="description" rows="8" th:text="${book.getDescription()}" th:field="*{description}"></textarea>
+                            <textarea class="form-control" id="description" rows="8" th:field="*{description}"></textarea>
                         </div>
                     </div>
                     <hr/>
                     <div class="form-group row">
                         <div class="col">
-                            <button type="submit" class="btn btn-outline-success float-right">Сохранить</button>
-                            <a th:href="@{/books/{id}(id = ${book.id})}" class="btn btn-outline-secondary float-right mr-3">Отменить</a>
+                            <button type="submit" class="btn btn-outline-success float-right">Добавить книгу</button>
+                            <a th:href="@{/books}" class="btn btn-outline-secondary float-right mr-3">Отменить</a>
                         </div>
                     </div>
                 </form>
@@ -62,6 +67,7 @@
 </div>
 
 <th:block layout:fragment="scripts">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"></script>
     <script th:src="@{'/js/imageLoader.js'}"></script>
     <script th:inline="javascript">
         var imageLoader = new ImageLoader('imageUpload', 'imageInput', 'imageBook');

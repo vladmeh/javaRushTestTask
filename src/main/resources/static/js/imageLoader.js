@@ -25,6 +25,7 @@ var ImageLoader = (function () {
         reader.onload = function () {
             output.value = event.target.value;
             output.src = reader.result;
+            output.style = null;
         };
         return reader.readAsDataURL(event.target.files[0]);
     };

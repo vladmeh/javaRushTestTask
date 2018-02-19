@@ -1,6 +1,9 @@
 package com.vladmeh.javaRushTestTask.Controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladmeh.javaRushTestTask.Application;
+import com.vladmeh.javaRushTestTask.BookBuilder;
+import com.vladmeh.javaRushTestTask.Entity.Book;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +46,9 @@ public class BookControllerTest {
 
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -113,6 +119,36 @@ public class BookControllerTest {
         mockMvc.perform(post("/books/edition/{id}", TEST_BOOK_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/books/" + TEST_BOOK_ID));
+
+        em.flush();
+    }
+
+    @Test
+    public void addBook_shouldReturnHttpResponseStatusIsOkAndTitle() throws Exception{
+
+        mockMvc.perform(get("/books/add"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(content().string(containsString("Новая книга")));
+    }
+
+    @Test
+    public void addSubmit_shouldReturnHttpResponseStatusIsRedirection() throws Exception{
+        Book book = new BookBuilder()
+                .autor("Иван Портянкин")
+                .title("Swing. Эффектные пользовательские интерфейсы")
+                .description("Создание пользовательских интерфейсов Java-приложений с помощью библиотеки Swing и Java Foundation Classes")
+                .isbn("978-5-85582-305-9")
+                .printYear(2011)
+                .readAlready(false)
+                .build();
+
+        mockMvc.perform(post("/books/add")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(objectMapper.writeValueAsString(book))
+                )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/books"));
 
         em.flush();
     }
