@@ -368,3 +368,15 @@
     * Тестируем отображение страницы редактирования книги
     * Тестируем ответ сервера на обработку данных полученных с формы и редирект на страниццу отображения книги
     
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/9631982dfc581b2e715be9b25818f64e6b49596a)
+
+#### Создание новой книги
+*   В контроллере [BookController](https://github.com/vladmeh/javaRushTestTask/blob/644ac928291075675fe32a93cda368cfc06676d0/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) пишем методы
+        * `addBook` - метод отвечает за вывод формы добавления книги
+        * `addSubmit` - метод отвечает за обработку данных полученных из формы добавления и сохранения в базе данных.
+*   Пишем шаблон представления [books/newBook.html](https://github.com/vladmeh/javaRushTestTask/blob/644ac928291075675fe32a93cda368cfc06676d0/src/main/resources/templates/books/newBook.html), который отображает форму добавления новой книги.
+*   Пишем интеграционные тесты [BookControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/644ac928291075675fe32a93cda368cfc06676d0/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java)
+    * Тестируем отображение страницы добавления книги
+    * Тестируем ответ сервера на обработку данных полученных с формы и редирект на страниццу списка книг
+
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/644ac928291075675fe32a93cda368cfc06676d0)

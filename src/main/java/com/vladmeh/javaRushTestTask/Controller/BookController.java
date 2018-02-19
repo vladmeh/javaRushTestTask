@@ -26,7 +26,6 @@ import java.nio.file.StandardCopyOption;
 @Controller
 @RequestMapping(path = "/books")
 public class BookController {
-
     private final Logger logger = LoggerFactory.getLogger(BookRestController.class);
 
     @Value("src/main/resources/static/images/")
@@ -124,7 +123,17 @@ public class BookController {
     @PostMapping(path = "/add")
     public String addSubmit(
             @ModelAttribute Book book
-    ){
+            //,@RequestParam MultipartFile file
+    ) throws IOException {
+
+        /*if (!file.isEmpty()){
+            String fileName = file.getOriginalFilename();
+            InputStream is = file.getInputStream();
+            Files.copy(is, Paths.get(pathUploadImage + fileName), StandardCopyOption.REPLACE_EXISTING);
+
+            book.setImageStr(fileName);
+        }*/
+
         bookService.save(book);
 
         return "redirect:/books";
