@@ -409,7 +409,57 @@
 
 *   В методах `editionSubmit()` и `addSubmit()` контроллера [BookController](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) добавляем параметр `@RequestParam MultipartFile file` и реализуем сохранение полученного файла в базе данных.
 
+```ava_holder_method_tree
+@PostMapping(path = "/edition/{id}")
+public String editionSubmit(
+        @ModelAttribute Book book,
+        @PathVariable Long id,
+        @RequestParam MultipartFile file,
+        RedirectAttributes redirectAttributes
+) throws IOException {
+    if (!file.isEmpty()){
+        String fileName = file.getOriginalFilename();
+        book.setImageData(file.getBytes());
+        book.setImageStr(fileName);
+    }
+
+    bookService.update(book, id);
+    redirectAttributes.addAttribute("id", id);
+    return "redirect:/books/{id}";
+}
+```
+
 *   В методе `public Book update()` сервиса [Service.BookServiceImpl](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/java/com/vladmeh/javaRushTestTask/Service/BookServiceImpl.java) дописываем реализацию обновления поля `imageData` - `if (book.getImageData() != null) entity.setImageData(book.getImageData());`
 
 #### Отображение
 *   В шаблонах [books/edition.html](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/resources/templates/books/edition.html), [books/view.html](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/resources/templates/books/view.html), [books/list.html](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/resources/templates/books/list.html) везде где идет отображение обложки через `${book.getImageStr()}` меняем аттрибут `src` тега `<img>` на `th:src="@{/books/{id}/image(id = ${book.getId()})}"`
+
+```html
+<img th:src="@{/books/{id}/image(id = ${book.getId()})}" th:alt="${book.getTitle()}" class="img-thumbnail"/>
+```
+
+*   Для того что-бы ссылка `/books/id_книги/image` работала, в контроллер [BookController](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) добавляем метод `getImageData()`
+
+```java_holder_method_tree
+@GetMapping(path = "/{id}/image")
+@ResponseBody
+public ResponseEntity<byte[]> getImageData(@PathVariable Long id){
+
+    byte[] imageData = bookService.findById(id).getImageData();
+
+    return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE)
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE)
+            .header(HttpHeaders.CACHE_CONTROL, CacheControl.noCache().getHeaderValue())
+            .body(imageData);
+}
+```
+
+Подробнее об этом и других решенииях читаем [здесь](http://www.baeldung.com/spring-mvc-image-media-data)
+
+#### Тесты
+В контроллере мы изменили методы отвечающие за обработку данных переданных с форм.
+*   В [BookControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java) изменим тесты `editionSubmit_...` и `addSubmit_`
+    * добавим в них тестирование загрузки файла
+
+[Итог](https://github.com/vladmeh/javaRushTestTask/tree/1cf32425ddda89bc533cf754f3a0189af684643c)
