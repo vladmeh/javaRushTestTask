@@ -362,6 +362,9 @@
 *    В контроллере [BookController](https://github.com/vladmeh/javaRushTestTask/blob/9631982dfc581b2e715be9b25818f64e6b49596a/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) пишем методы
     * `newEditionBook` - метод отвечает за вывод формы редактирования книги
     * `editionSubmit` - метод отвечает за обработку данных полученных из формы рекдактирования и сохранения в базе данных.
+
+*   В методе `public Book update()` сервиса [Service.BookServiceImpl](https://github.com/vladmeh/javaRushTestTask/blob/9631982dfc581b2e715be9b25818f64e6b49596a/src/main/java/com/vladmeh/javaRushTestTask/Service/BookServiceImpl.java) дописываем реализацию обновления поля `imageStr` - `if (book.getImageStr() != null) entity.setImageStr(book.getImageStr());`
+
 *   Пишем шаблон представления [books/edition.html](https://github.com/vladmeh/javaRushTestTask/blob/9631982dfc581b2e715be9b25818f64e6b49596a/src/main/resources/templates/books/edition.html), который отображает форму редактирования экземпляра книги.
     * в представлении пишем действие, которое предварительно подгружает новое изображение (обложку) книги, но пока не загружает его на сервер. Загрузку и сохранения изображения мы реализуем позже.
 *   Пишем интеграционные тесты [BookControllerTest](https://github.com/vladmeh/javaRushTestTask/blob/9631982dfc581b2e715be9b25818f64e6b49596a/src/test/java/com/vladmeh/javaRushTestTask/Controller/BookControllerTest.java)
@@ -380,3 +383,33 @@
     * Тестируем ответ сервера на обработку данных полученных с формы и редирект на страниццу списка книг
 
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/644ac928291075675fe32a93cda368cfc06676d0)
+
+### Загрузка изображений через форму и отображение их в представлении.
+
+Сейчас наши изображения храняться в статической папке приложения `src/main/resource/static`. Загружать в эту папку новые изображения не совсем хорошая идея, т.к. после загрузки изображения и обновления в базе данных записи о загруженном файле, чтобы увидеть изображение в представлении нам придеться каждый раз перезапускать приложение.
+
+Есть решение вынести папку с изображениями в файловую систему (за пределы нашего приложения), которое подробно рассмотрено [здесь](https://spring.io/guides/gs/uploading-files/). Я же воспользуюсь некоторыми идеями из этого руководства и буду сохранять изображения в базе данных.
+
+#### Хранение
+*   В таблицу `book` добавляем новое поле
+    ```bash
+    mysql> ALTER TABLE book ADD image_data mediumblob NULL;
+    ```
+    
+    >* BLOB for 65535 bytes (64 KB) maximum,
+    >* MEDIUMBLOB for 16777215 bytes (16 MB),
+    >* LONGBLOB for 4294967295 bytes (4 GB).
+     
+    Изображения явно будут больше чем 64kb, поле типа `MEDIUMBLOB`.  Для ограничения размера загружаемого файла в `application.properties` можно выставить значения для свойств `spring.http.multipart.max-file-size=256KB` и `spring.http.multipart.max-request-size=256KB`
+
+*   В сущность [Entity.Book](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/java/com/vladmeh/javaRushTestTask/Entity/Book.java) добавляем приватное поле типа байтового массива `private byte[] imageData`, добавляем аннотации, создаем для него геттер и сеттер.
+  
+#### Загрузка
+*   В шаблонах [books/edition.html](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/resources/templates/books/edition.html) и [books/newBook.html](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/resources/templates/books/newBook.html) к форме редактирования (добавления) книги добаляем аттрибут `enctype="multipart/form-data"`, поле загрузки файла: `<input type="file" name="file" hidden="hidden" multiple="" accept="image/*" id="imageInput"/>`.
+
+*   В методах `editionSubmit()` и `addSubmit()` контроллера [BookController](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java) добавляем параметр `@RequestParam MultipartFile file` и реализуем сохранение полученного файла в базе данных.
+
+*   В методе `public Book update()` сервиса [Service.BookServiceImpl](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/java/com/vladmeh/javaRushTestTask/Service/BookServiceImpl.java) дописываем реализацию обновления поля `imageData` - `if (book.getImageData() != null) entity.setImageData(book.getImageData());`
+
+#### Отображение
+*   В шаблонах [books/edition.html](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/resources/templates/books/edition.html), [books/view.html](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/resources/templates/books/view.html), [books/list.html](https://github.com/vladmeh/javaRushTestTask/blob/1cf32425ddda89bc533cf754f3a0189af684643c/src/main/resources/templates/books/list.html) везде где идет отображение обложки через `${book.getImageStr()}` меняем аттрибут `src` тега `<img>` на `th:src="@{/books/{id}/image(id = ${book.getId()})}"`
