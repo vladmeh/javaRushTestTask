@@ -46,8 +46,7 @@
                 <div class="card mb-4 box-shadow-hover z-depth-1">
                     <a th:href="@{/books/{id}(id = ${book.id})}">
                         <div class="card-img-crop">
-                            <img th:if="${book.imageStr != null}" class="card-img-top" th:src="@{'/images/' + ${book.imageStr}}" th:alt="${book.title}" />
-                            <img th:if="${book.imageStr == null}" class="card-img-top" data-src="holder.js/255x370" th:alt="${book.title}" />
+                            <img class="card-img-top" th:src="@{/books/{id}/image(id = ${book.id})}" th:alt="${book.title}" />
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             <span class="text-muted" th:text="${book.printYear} + ' г.'"></span>

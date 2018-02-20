@@ -15,16 +15,16 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-                <img th:if="${book.getImageStr() != null}" th:src="@{'/images/' + ${book.getImageStr()}}" th:alt="${book.getTitle()}" class="img-thumbnail" th:id="${'imageBook'}"/>
-                <img th:if="${book.getImageStr() == null}" data-src="holder.js/350x500" th:alt="${book.getTitle()}" class="img-thumbnail" th:id="${'imageBook'}"/>
+                <img th:if="${book.getImageData() != null}" th:src="@{/books/{id}/image(id = ${book.getId()})}" class="img-thumbnail" th:id="${'imageBook'}"/>
+                <img th:if="${book.getImageData() == null}" data-src="holder.js/350x500" th:alt="${book.getTitle()}" class="img-thumbnail" th:id="${'imageBook'}"/>
                 <button type="button" class="btn btn-outline-primary mt-2" id="imageUpload">Заменить обложку</button>
             </div>
             <div class="col-8">
                 <h3 th:text="${book.getTitle()}" class="page-header h3"></h3>
                 <small th:text="${book.getAutor()}" class="text-muted"></small>
                 <hr/>
-                <form method="post" action="" th:object="${book}">
-                    <input type="file" hidden="hidden" multiple="" accept="image/*" id="imageInput"/>
+                <form method="post" th:object="${book}" enctype="multipart/form-data">
+                    <input type="file" name="file" hidden="hidden" multiple="" accept="image/*" id="imageInput"/>
                     <div class="form-group row">
                         <label for="title" class="col-sm-3 col-form-label">Название</label>
                         <div class="col-sm-9">

@@ -119,9 +119,11 @@ public class BookControllerTest {
     }
 
     @Test
-    public void editionSubmit_shouldReturnHttpResponseStatusIsRedirection() throws Exception{
+    public void editionSubmit_shouldSaveUploadedFile() throws Exception{
+        MockMultipartFile multipartFile = new MockMultipartFile("file", "test.jpg",
+                MediaType.IMAGE_JPEG_VALUE, "Spring Framework".getBytes());
 
-        mockMvc.perform(post("/books/edition/{id}", TEST_BOOK_ID))
+        mockMvc.perform(fileUpload("/books/edition/{id}", TEST_BOOK_ID).file(multipartFile))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/books/" + TEST_BOOK_ID));
 
@@ -148,26 +150,16 @@ public class BookControllerTest {
                 .readAlready(false)
                 .build();
 
-        mockMvc.perform(post("/books/add")
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .content(objectMapper.writeValueAsString(book))
-                )
+        MockMultipartFile multipartFile = new MockMultipartFile("file", "test.jpeg",
+                MediaType.IMAGE_JPEG_VALUE, "Spring Framework".getBytes());
+
+        mockMvc.perform(fileUpload("/books/add")
+                .file(multipartFile)
+                .content(objectMapper.writeValueAsString(book))
+        )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/books"));
 
         em.flush();
     }
-
-    @Test
-    public void uploadTest() throws Exception {
-        String endpoint = "/src/test/resources/upload/";
-        FileInputStream fis = new FileInputStream("D:\\JavaRush\\javaRushTestTask\\data\\1020949847.JPG");
-        MockMultipartFile multipartFile = new MockMultipartFile("file",fis);
-
-        mockMvc.perform(MockMvcRequestBuilders.fileUpload(endpoint).file(multipartFile))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("file"))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
 }

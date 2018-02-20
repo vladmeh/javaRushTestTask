@@ -34,7 +34,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-4">
-                    <img th:if="${book.getImageData() != null}" th:src="@{/books/image/{id}(id = ${book.getId()})}" th:alt="${book.getTitle()}" class="img-thumbnail"/>
+                    <img th:if="${book.getImageData() != null}" th:src="@{/books/{id}/image(id = ${book.getId()})}" th:alt="${book.getTitle()}" class="img-thumbnail"/>
                     <img th:if="${book.getImageData() == null}" data-src="holder.js/350x500" th:alt="${book.getTitle()}" class="img-thumbnail"/>
                 </div>
                 <div class="col-8">

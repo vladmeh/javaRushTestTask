@@ -108,8 +108,15 @@ public class BookController {
     public String editionSubmit(
             @ModelAttribute Book book,
             @PathVariable Long id,
+            @RequestParam MultipartFile file,
             RedirectAttributes redirectAttributes
-    ){
+    ) throws IOException {
+        if (!file.isEmpty()){
+            String fileName = file.getOriginalFilename();
+            book.setImageData(file.getBytes());
+            book.setImageStr(fileName);
+        }
+
         bookService.update(book, id);
         redirectAttributes.addAttribute("id", id);
         return "redirect:/books/{id}";
@@ -129,8 +136,6 @@ public class BookController {
 
         if (!file.isEmpty()){
             String fileName = file.getOriginalFilename();
-            //InputStream is = file.getInputStream();
-            //Files.copy(is, Paths.get(pathUploadImage + fileName), StandardCopyOption.REPLACE_EXISTING);
 
             book.setImageData(file.getBytes());
             book.setImageStr(fileName);
@@ -141,19 +146,16 @@ public class BookController {
         return "redirect:/books";
     }
 
-    @GetMapping(path = "/image/{id}")
+    @GetMapping(path = "/{id}/image")
     @ResponseBody
     public ResponseEntity<byte[]> getImageData(@PathVariable Long id){
 
         byte[] imageData = bookService.findById(id).getImageData();
 
-        /*HttpHeaders headers = new HttpHeaders();
-        //headers.setContentType(MediaType.IMAGE_JPEG);
-        //headers.setContentType(MediaType.IMAGE_PNG);
-        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-        return new ResponseEntity<>(imageContent, headers, HttpStatus.OK);*/
-
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,
-                MediaType.IMAGE_JPEG_VALUE).body(imageData);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE)
+                .header(HttpHeaders.CACHE_CONTROL, CacheControl.noCache().getHeaderValue())
+                .body(imageData);
     }
 }

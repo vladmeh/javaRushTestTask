@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service("bookService")
 @Repository
 @Transactional
@@ -57,6 +56,7 @@ public class BookServiceImpl implements BookService {
         if (book.getIsbn() != null) entity.setIsbn(book.getIsbn());
         if (book.getPrintYear() != 0) entity.setPrintYear(book.getPrintYear());
         if (book.getImageStr() != null) entity.setImageStr(book.getImageStr());
+        if (book.getImageData() != null) entity.setImageData(book.getImageData());
         entity.setReadAlready(book.isReadAlready());
 
         return bookRepository.save(entity);
