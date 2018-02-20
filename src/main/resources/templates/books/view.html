@@ -34,8 +34,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-4">
-                    <img th:if="${book.getImageStr() != null}" th:src="@{'/images/' + ${book.getImageStr()}}" th:alt="${book.getTitle()}" class="img-thumbnail"/>
-                    <img th:if="${book.getImageStr() == null}" data-src="holder.js/350x500" th:alt="${book.getTitle()}" class="img-thumbnail"/>
+                    <img th:if="${book.getImageData() != null}" th:src="@{/books/image/{id}(id = ${book.getId()})}" th:alt="${book.getTitle()}" class="img-thumbnail"/>
+                    <img th:if="${book.getImageData() == null}" data-src="holder.js/350x500" th:alt="${book.getTitle()}" class="img-thumbnail"/>
                 </div>
                 <div class="col-8">
                     <h3 th:text="${book.getTitle()}" class="page-header h3"></h3>

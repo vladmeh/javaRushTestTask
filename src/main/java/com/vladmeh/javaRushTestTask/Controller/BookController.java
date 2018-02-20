@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -123,19 +124,36 @@ public class BookController {
     @PostMapping(path = "/add")
     public String addSubmit(
             @ModelAttribute Book book
-            //,@RequestParam MultipartFile file
+            ,@RequestParam MultipartFile file
     ) throws IOException {
 
-        /*if (!file.isEmpty()){
+        if (!file.isEmpty()){
             String fileName = file.getOriginalFilename();
-            InputStream is = file.getInputStream();
-            Files.copy(is, Paths.get(pathUploadImage + fileName), StandardCopyOption.REPLACE_EXISTING);
+            //InputStream is = file.getInputStream();
+            //Files.copy(is, Paths.get(pathUploadImage + fileName), StandardCopyOption.REPLACE_EXISTING);
 
+            book.setImageData(file.getBytes());
             book.setImageStr(fileName);
-        }*/
+        }
 
         bookService.save(book);
 
         return "redirect:/books";
+    }
+
+    @GetMapping(path = "/image/{id}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getImageData(@PathVariable Long id){
+
+        byte[] imageData = bookService.findById(id).getImageData();
+
+        /*HttpHeaders headers = new HttpHeaders();
+        //headers.setContentType(MediaType.IMAGE_JPEG);
+        //headers.setContentType(MediaType.IMAGE_PNG);
+        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+        return new ResponseEntity<>(imageContent, headers, HttpStatus.OK);*/
+
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE,
+                MediaType.IMAGE_JPEG_VALUE).body(imageData);
     }
 }
