@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="book(book, action)">
+    <!--/*@thymesVar id="book" type="com.vladmeh.javaRushTestTask.Entity.Book"*/-->
+    <form method="post" th:object="${book}" enctype="multipart/form-data">
+        <input type="file" name="file" hidden="hidden" multiple="" accept="image/*" id="imageInput"/>
+        <div class="form-group row">
+            <label for="title" class="col-sm-3 col-form-label">Название</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="title" placeholder="Название" th:field="*{title}"/>
+            </div>
+        </div>
+        <div th:if="${action == 'new'}" class="form-group row">
+            <label for="autor" class="col-sm-3 col-form-label">Авторы</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="autor" placeholder="Авторы" th:field="*{autor}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="printYear" class="col-sm-3 col-form-label">Год издания</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="printYear" placeholder="Год издания"  th:field="*{printYear}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="isbn" class="col-sm-3 col-form-label">ISBN</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="isbn" placeholder="ISBN" th:field="*{isbn}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="description" class="col-sm-3 col-form-label">Краткое описание</label>
+            <div class="col-sm-9">
+                <textarea class="form-control" id="description" rows="8" th:field="*{description}"></textarea>
+            </div>
+        </div>
+        <hr/>
+        <div class="form-group row">
+            <div class="col">
+                <button type="submit" class="btn btn-outline-success float-right" th:text="${action == 'new'?'Добавить книгу':'Сохранить'}"></button>
+                <a th:if="${action == 'new'}" th:href="@{/books}" class="btn btn-outline-secondary float-right mr-3">Отменить</a>
+                <a th:if="${action == 'edition'}" th:href="@{/books/{id}(id = ${book.id})}" class="btn btn-outline-secondary float-right mr-3">Отменить</a>
+            </div>
+        </div>
+    </form>
+</th:block>
+
+<div th:fragment="free"></div>
+</body>
+</html>

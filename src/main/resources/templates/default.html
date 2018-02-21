@@ -11,21 +11,21 @@
     <link layout:fragment="pageStyleLink"/>
     <style layout:fragment="pageStyle"></style>
 </head>
-<body>
+<body class="app">
     <header>
         <div class="bg-dark collapse" id="navbarHeader">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8 col-md-7 py-4">
-                        <h4 class="text-white">About</h4>
-                        <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+                        <h4 class="text-white">Автор</h4>
+                        <p class="text-muted">Владимир Михайлов, Санкт-Петербург, Россия. Frontend разработчик с 2001 года. Основы Java начал изучать в марте 2017 г. Опыта работы на Java нет, очень желает пройти стажировку.</p>
                     </div>
                     <div class="col-sm-4 offset-md-1 py-4">
-                        <h4 class="text-white">Contact</h4>
+                        <h4 class="text-white">Контакты</h4>
                         <ul class="list-unstyled">
-                            <li><a href="#" class="text-white">Follow on Twitter</a></li>
-                            <li><a href="#" class="text-white">Like on Facebook</a></li>
-                            <li><a href="#" class="text-white">Email me</a></li>
+                            <li><a href="http://vladmeh.ru" class="text-white">vladmeh.ru</a></li>
+                            <li><a href="#" class="text-white">+7(964)373-11-91</a></li>
+                            <li><a href="mailto:vladmeh@gmail.com" class="text-white">vladmeh@gmail.com</a></li>
                         </ul>
                     </div>
                 </div>
@@ -57,11 +57,17 @@
             </div>
         </nav>
     </header>
-    <main role="main">
+    <main role="main" class="app-content">
         <th:block layout:fragment="pageHead"></th:block>
         <th:block layout:fragment="content"></th:block>
     </main>
-    <footer layout:fragment="footer" class="text-muted"></footer>
+    <footer layout:fragment="footer">
+        <div class="container">
+            <div class="text-muted py-3 text-center border-top">
+                <p th:text="${'&copy; ' + #dates.year(#dates.createNow()) + ' VladMeh.'}"></p>
+            </div>
+        </div>
+    </footer>
     <th:block layout:fragment="modal"></th:block>
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>

@@ -16,12 +16,20 @@ body{
 }
 
 footer {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+    padding-bottom: 1rem;
 }
 
 footer p {
     margin-bottom: .25rem;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.app-content {
+    flex: 1;
 }
 
 .border-top { border-top: 1px solid #e5e5e5; }
