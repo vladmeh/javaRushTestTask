@@ -46,7 +46,15 @@
 
 ***
 
-#### Требования
+### Уставнока
+
+```bash
+$> git clone https://github.com/vladmeh/javaRushTestTask.git
+$> cd javaRushTestTask
+$> rm -rf .git
+```
+
+#### Требования к установке для проверки
 
 *   [IntelliJ IDEA](https://www.jetbrains.com/idea/download/);
 *   [JDK 6](http://www.oracle.com/technetwork/java/javase/downloads/index.html) или более поздняя [версия](http://www.oracle.com/technetwork/java/javase/downloads/index.html);
@@ -55,7 +63,36 @@
 *   [MySQL 5.5 и выше](https://dev.mysql.com/downloads/installer/);
 *   [Git v.2.13](https://git-scm.com/book/ru/v2/%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-Git);
 
-#### Уставнока
 
+#### Подключение базы данных
 
-### Подключение базы данных
+* База данных - `test`
+* Логин и пароль - `root`
+* Порт - `3306`
+* Скрипт базы находиться в файле `./data/test_book.sql`
+
+```mysql
+mysql> source data/test_book.sql
+```
+
+#### Сборка и запуск проекта
+```bash
+$> cd javaRushTestTask
+$> mvn package && java -jar target/javaRushTestTask-0.0.1-SNAPSHOT.jar
+```
+
+В браузере набираем `http://localhost:8080`. Восхищаемся шедевром!!!
+
+[По-шаговая разработка проекта](https://github.com/vladmeh/javaRushTestTask/blob/master/STEP-BY-STEP.md)
+
+### В процессе разработки пользовался материалом из источников:
+
+*   Spring 4 для профессионалов (4-е издание)
+*   https://docs.spring.io/
+*   https://www.jetbrains.com/
+*   https://www.petrikainulainen.net/spring-data-jpa-tutorial
+*   http://www.natpryce.com/articles/000714.html
+*   http://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html
+*   https://getbootstrap.com/docs/4.0/getting-started/introduction
+*   http://www.baeldung.com/
+
