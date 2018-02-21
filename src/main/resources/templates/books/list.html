@@ -10,16 +10,9 @@
 </head>
 <body>
 
-<section class="jumbotron text-center" layout:fragment="pageHead">
-    <div class="container">
-        <h1 class="jumbotron-heading">Книжная полка</h1>
-        <p class="lead text-muted">Проект созданный в рамках тестового задания онлайн курса Java - <a href="https://javarush.ru">JavaRush</a>, для прохождения стажировки.</p>
-        <p>
-            <a href="#" class="btn btn-primary my-2">Main call to action</a>
-            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-        </p>
-    </div>
-</section>
+<li class="nav-item" layout:fragment="newBook">
+    <a class="nav-item nav-link" th:href="@{'/books/add'}">Новая книга</a>
+</li>
 
 <th:block layout:fragment="searchForm">
     <form th:replace="fragments/filters :: search(${term})"></form>
@@ -27,6 +20,13 @@
 
 <div layout:fragment="content" class="py-5 bg-light">
     <div class="container">
+        <div class="d-flex flex-column flex-md-row align-items-center">
+            <h1 class="mr-auto">Список книг</h1>
+            <th:block th:if="${books.getTotalPages()} > 1">
+                <div th:replace="fragments/pagination :: pagination(${books})"></div>
+            </th:block>
+        </div>
+        <hr/>
         <div class="d-flex flex-column flex-md-row align-items-center mb-3">
             <div class="mr-auto">
                 <div class="form-row">
@@ -36,9 +36,6 @@
                     </div>
                 </div>
             </div>
-            <th:block th:if="${books.getTotalPages()} > 1">
-                <div th:replace="fragments/pagination :: pagination(${books})"></div>
-            </th:block>
         </div>
 
         <div class="row">
@@ -46,7 +43,10 @@
                 <div class="card mb-4 box-shadow-hover z-depth-1">
                     <a th:href="@{/books/{id}(id = ${book.id})}">
                         <div class="card-img-crop">
-                            <img class="card-img-top" th:src="@{/books/{id}/image(id = ${book.id})}" th:alt="${book.title}" />
+                            <img th:if="${book.imageData != null}" class="card-img-top" th:src="@{/books/{id}/image(id = ${book.id})}" th:alt="${book.title}" />
+                            <div th:if="${book.imageData == null}" class="d-flex align-items-center h-100">
+                                <div class="p-3 align-self-center text-muted w-100" th:text="${book.title}"></div>
+                            </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             <span class="text-muted" th:text="${book.printYear} + ' г.'"></span>

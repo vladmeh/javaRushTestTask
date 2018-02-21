@@ -68,7 +68,7 @@ public class BookControllerTest {
         this.mockMvc.perform(get("/books"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(this.contentType))
-                .andExpect(content().string(containsString("Книжная полка")));
+                .andExpect(content().string(containsString("Список книг")));
     }
 
     @Test

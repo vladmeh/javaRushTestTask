@@ -42,12 +42,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-item nav-link active" th:href="@{'/books'}">Список книг</a>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link" th:href="@{'/'}">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-item nav-link" th:href="@{'/books/add'}">Новая книга</a>
+                        <a class="nav-item nav-link" th:href="@{'/books'}">Список книг</a>
                     </li>
+                    <th:block layout:fragment="newBook"></th:block>
                 </ul>
                 <th:block layout:fragment="actionBook"></th:block>
                 <th:block layout:fragment="searchForm">

@@ -9,11 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HomeAction {
     @RequestMapping("/")
-    public String homeAction(
-            @RequestParam(value="name", required=false, defaultValue="World") String name,
-            Model uiModel
-    ) {
-        uiModel.addAttribute("name", name);
+    public String homeAction() {
         return "index";
     }
 }

@@ -10,6 +10,10 @@
 </head>
 
 <body>
+    <li class="nav-item" layout:fragment="newBook">
+        <a class="nav-item nav-link" th:href="@{'/books/add'}">Новая книга</a>
+    </li>
+
     <th:block layout:fragment="actionBook">
         <a th:href="@{/books/edition/{id}(id = ${book.id})}" class="btn btn-link text-dark">
             <svg class="navbar-nav-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 16" version="1.1" aria-hidden="true">

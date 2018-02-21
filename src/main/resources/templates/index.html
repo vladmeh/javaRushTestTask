@@ -5,6 +5,15 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="default">
 <body>
-<h1 layout:fragment="pageHead" th:text="'Hello, ' + ${name} + '!'"></h1>
+<section class="jumbotron text-center" layout:fragment="pageHead">
+    <div class="container">
+        <h1 class="jumbotron-heading">Книжная полка</h1>
+        <p class="lead text-muted">Проект созданный в рамках тестового задания онлайн курса Java - <a href="https://javarush.ru">JavaRush</a>, для прохождения стажировки.</p>
+        <p>
+            <a href="#" class="btn btn-primary my-2">Main call to action</a>
+            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+        </p>
+    </div>
+</section>
 </body>
 </html>

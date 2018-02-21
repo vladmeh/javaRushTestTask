@@ -66,7 +66,7 @@ public class BookRestControllerTest {
         mockMvc.perform(get("/books/api/all"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(this.contentType))
-                .andExpect(jsonPath("$[0].title", is("Spring 4 для профессионалов")))
+                .andExpect(jsonPath("$[0].title", is("Spring 4 для профессионалов (4-е издание)")))
         ;
     }
 
@@ -115,7 +115,7 @@ public class BookRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.title", is("Spring 4 для профессионалов")));
+                .andExpect(jsonPath("$.title", is("Spring 4 для профессионалов (4-е издание)")));
     }
 
     @Test
