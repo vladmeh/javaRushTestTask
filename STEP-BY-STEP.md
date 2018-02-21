@@ -384,7 +384,7 @@
 
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/644ac928291075675fe32a93cda368cfc06676d0)
 
-### Загрузка изображений через форму и отображение их в представлении.
+### 15. Загрузка изображений через форму и отображение их в представлении.
 
 Сейчас наши изображения храняться в статической папке приложения `src/main/resource/static`. Загружать в эту папку новые изображения не совсем хорошая идея, т.к. после загрузки изображения и обновления в базе данных записи о загруженном файле, чтобы увидеть изображение в представлении нам придеться каждый раз перезапускать приложение.
 
@@ -463,3 +463,62 @@ public ResponseEntity<byte[]> getImageData(@PathVariable Long id){
     * добавим в них тестирование загрузки файла
 
 [Итог](https://github.com/vladmeh/javaRushTestTask/tree/1cf32425ddda89bc533cf754f3a0189af684643c)
+
+### 16. Наводим марафет - Refactoring
+
+*   Оформляем домашнюю страницу - [index.html](https://github.com/vladmeh/javaRushTestTask/blob/524ec9c788a84a7f01249226c0319af059ac5779/src/main/resources/templates/index.html)
+*   Рефакторим основной шаблон - [index.html](https://github.com/vladmeh/javaRushTestTask/blob/524ec9c788a84a7f01249226c0319af059ac5779/src/main/resources/templates/default.html)
+    *   допиливаем стили
+    *   организуем footer
+    *   исправляем навигационную панель
+*   Доводим до ума нашу страницу со списоком [templates/books/newBook.html](https://github.com/vladmeh/javaRushTestTask/blob/524ec9c788a84a7f01249226c0319af059ac5779/src/main/resources/templates/books/list.html)
+*   Пишем еще один фрагмент [templates/fragments/forms.html](https://github.com/vladmeh/javaRushTestTask/blob/524ec9c788a84a7f01249226c0319af059ac5779/src/main/resources/templates/fragments/forms.html) и выносим туда наши формы со страниц [templates/books/edition.html](https://github.com/vladmeh/javaRushTestTask/blob/524ec9c788a84a7f01249226c0319af059ac5779/src/main/resources/templates/books/edition.html) и [templates/books/newBook.html](https://github.com/vladmeh/javaRushTestTask/blob/524ec9c788a84a7f01249226c0319af059ac5779/src/main/resources/templates/books/newBook.html)
+*   В методах `addSubmit` и `editionSubmit` контроллера [BookController](https://github.com/vladmeh/javaRushTestTask/blob/524ec9c788a84a7f01249226c0319af059ac5779/src/main/java/com/vladmeh/javaRushTestTask/Controller/BookController.java), код отвечающий за загрузку файлов:
+    ```java
+    if (!file.isEmpty()){
+        String fileName = file.getOriginalFilename();
+
+        book.setImageData(file.getBytes());
+        book.setImageStr(fileName);
+    }
+    ```
+    выносим в наш сервис [Service.BookServiceImpl](https://github.com/vladmeh/javaRushTestTask/blob/524ec9c788a84a7f01249226c0319af059ac5779/src/main/java/com/vladmeh/javaRushTestTask/Service/BookServiceImpl.java) в метод `public Book uploadFileData`, который после успешной загрузки данных файла возвращает нам экземпляр `Book`.
+
+* Проверяем тесты
+    * исправляем текстовый вывод в тестах, которые проверяют строки на выходе.
+
+>Наводить марафет можно бесконечно, поэтому нужно во-время остановиться. На этом ВСЕ, тестовое прижение ГОТОВО!!!!
+
+[ОКОНЧАТЕЛЬНЫЙ ИТОГ](https://github.com/vladmeh/javaRushTestTask/tree/07eef38859fa440e1ae22d9a805102d73412dcb8)
+
+### 16. Сборка и запуск проекта без IDEA
+#### Сборка
+
+Если устанавливать Spring boot через [SPRING INITIALIZR](https://start.spring.io/), что мы и делали, то
+```bash
+$> ./mvnw clean package
+```
+
+или обычным способом через Maven
+```bash
+$> mvn package
+```
+
+#### Запуск
+```bash
+$> java -jar target/javaRushTestTask-0.0.1-SNAPSHOT.jar
+```
+
+В браузере набираем `http://localhost:8080`. Восхищаемся шедевром!!!
+
+### В процессе разработки пользовался материалом из источников:
+
+*   Spring 4 для профессионалов (4-е издание)
+*   https://docs.spring.io/
+*   https://www.jetbrains.com/
+*   https://www.petrikainulainen.net/spring-data-jpa-tutorial
+*   http://www.natpryce.com/articles/000714.html
+*   http://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html
+*   https://getbootstrap.com/docs/4.0/getting-started/introduction
+*   http://www.baeldung.com/
+
