@@ -106,12 +106,7 @@ public class BookController {
             @RequestParam MultipartFile file,
             RedirectAttributes redirectAttributes
     ) throws IOException {
-        if (!file.isEmpty()){
-            String fileName = file.getOriginalFilename();
-            book.setImageData(file.getBytes());
-            book.setImageStr(fileName);
-        }
-
+        book = bookService.uploadFileData(book, file);
         bookService.update(book, id);
         redirectAttributes.addAttribute("id", id);
         return "redirect:/books/{id}";
@@ -129,13 +124,7 @@ public class BookController {
             ,@RequestParam MultipartFile file
     ) throws IOException {
 
-        if (!file.isEmpty()){
-            String fileName = file.getOriginalFilename();
-
-            book.setImageData(file.getBytes());
-            book.setImageStr(fileName);
-        }
-
+        book = bookService.uploadFileData(book, file);
         bookService.save(book);
 
         return "redirect:/books";

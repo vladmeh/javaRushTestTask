@@ -4,7 +4,9 @@ package com.vladmeh.javaRushTestTask.Service;
 import com.vladmeh.javaRushTestTask.Entity.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface BookService {
@@ -18,4 +20,6 @@ public interface BookService {
 
     Page<Book> search(String term, int printYear, Pageable pageable);
     Page<Book> search(String term, int printYear, boolean readAlReady, Pageable pageable);
+
+    Book uploadFileData(Book book, MultipartFile file) throws IOException;
 }

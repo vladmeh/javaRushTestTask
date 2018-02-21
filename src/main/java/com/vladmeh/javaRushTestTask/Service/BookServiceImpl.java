@@ -9,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service("bookService")
@@ -72,5 +74,18 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     public Page<Book> search(String term, int printYear, boolean readAlReady, Pageable pageable) {
         return bookRepository.findBySearchParamsAndReadAlready(term, printYear, readAlReady, pageable);
+    }
+
+    @Override
+    public Book uploadFileData(Book book, MultipartFile file) throws IOException {
+
+        if (!file.isEmpty()){
+            String fileName = file.getOriginalFilename();
+
+            book.setImageData(file.getBytes());
+            book.setImageStr(fileName);
+        }
+
+        return book;
     }
 }
