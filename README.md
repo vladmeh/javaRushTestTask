@@ -71,8 +71,9 @@ $> rm -rf .git
 * Порт - `3306`
 * Скрипт базы находиться в файле `./data/test_book.sql`
 
-```mysql
-mysql> source data/test_book.sql
+```bash
+mysql> source data/script.sql
+mysql> source data/import.sql
 ```
 
 #### Сборка и запуск проекта
