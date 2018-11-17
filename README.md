@@ -69,7 +69,7 @@ $> rm -rf .git
 * База данных - `test`
 * Логин и пароль - `root`
 * Порт - `3306`
-* Скрипт базы находиться в файле `./data/test_book.sql`
+* Скрипты базы находяться в папке `./data/`
 
 ```bash
 mysql> source data/script.sql
