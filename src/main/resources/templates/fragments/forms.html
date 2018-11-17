@@ -5,7 +5,7 @@
 <body>
 <th:block th:fragment="book(book, action)">
     <!--/*@thymesVar id="book" type="com.vladmeh.javaRushTestTask.Entity.Book"*/-->
-    <form method="post" th:object="${book}" enctype="multipart/form-data">
+    <form method="post" th:object="${book}" enctype="multipart/form-data" accept-charset="UTF-8">
         <input type="file" name="file" hidden="hidden" multiple="" accept="image/*" id="imageInput"/>
         <div class="form-group row">
             <label for="title" class="col-sm-3 col-form-label">Название</label>
