@@ -84,7 +84,7 @@
 	</dependencies>
 
 	<build>
-        <finalName>choose-restaurant</finalName>
+        <finalName>javaRushTestTask</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
